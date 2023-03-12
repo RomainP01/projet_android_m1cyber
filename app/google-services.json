@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1021678067038",
+    "project_id": "projet-android-m1cyber",
+    "storage_bucket": "projet-android-m1cyber.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021678067038:android:920de83c65d0d63a8cc3cf",
+        "android_client_info": {
+          "package_name": "com.sauce_hannibal.projet_android_m1cyber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021678067038-kqrllphgf4eq10nhhdhhcp6l2gcaabrp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6ViTih9Wk1aFPCrmY_hinnhv-gHhQaZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021678067038-kqrllphgf4eq10nhhdhhcp6l2gcaabrp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
