@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber
+package com.mvince.compose
 
 import org.junit.Test
 
