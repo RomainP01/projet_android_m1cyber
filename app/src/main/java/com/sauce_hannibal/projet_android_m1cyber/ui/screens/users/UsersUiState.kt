@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.users
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.users
 
 import com.sauce_hannibal.projet_android_m1cyber.domain.User
 

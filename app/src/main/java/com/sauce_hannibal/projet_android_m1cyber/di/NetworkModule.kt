@@ -1,8 +1,11 @@
 package com.sauce_hannibal.projet_android_m1cyber.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.sauce_hannibal.projet_android_m1cyber.BuildConfig
 import com.sauce_hannibal.projet_android_m1cyber.network.DetailsApi
 import com.sauce_hannibal.projet_android_m1cyber.network.UsersApi
+import com.sauce_hannibal.projet_android_m1cyber.service.account.AccountService
+import com.sauce_hannibal.projet_android_m1cyber.service.account.FirebaseAccountService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,5 +50,17 @@ object NetworkModule {
     @Singleton
     fun provideUserDetailsService(retrofit: Retrofit): DetailsApi =
         retrofit.create(DetailsApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAccountService(): FirebaseAccountService = FirebaseAccountService(
+        FirebaseAuth.getInstance()
+    );
+
+    @Provides
+    @Singleton
+    fun provideAccountService(): AccountService = FirebaseAccountService(
+        FirebaseAuth.getInstance()
+    )
 
 }

@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.users.component
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.users.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
