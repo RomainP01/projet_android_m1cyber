@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.users
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.users
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sauce_hannibal.projet_android_m1cyber.ui.components.NoNetwork
-import com.sauce_hannibal.projet_android_m1cyber.ui.users.component.UserItem
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.users.component.UserItem
 
 @Composable
 fun UsersScreen(onUserClick: (String) -> Unit) {

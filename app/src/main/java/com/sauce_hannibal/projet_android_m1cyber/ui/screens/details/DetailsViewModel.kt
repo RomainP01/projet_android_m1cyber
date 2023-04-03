@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.details
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

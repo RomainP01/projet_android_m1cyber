@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.details
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.details
 
 import com.sauce_hannibal.projet_android_m1cyber.domain.Details
 import com.sauce_hannibal.projet_android_m1cyber.util.formatDate
