@@ -2,8 +2,7 @@ package com.sauce_hannibal.projet_android_m1cyber.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.sauce_hannibal.projet_android_m1cyber.BuildConfig
-import com.sauce_hannibal.projet_android_m1cyber.network.DetailsApi
-import com.sauce_hannibal.projet_android_m1cyber.network.UsersApi
+import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
 import com.sauce_hannibal.projet_android_m1cyber.service.account.AccountService
 import com.sauce_hannibal.projet_android_m1cyber.service.account.FirebaseAccountService
 import dagger.Module
@@ -38,18 +37,14 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create())
-        .baseUrl("https://api.github.com/")
+        .baseUrl("https://the-trivia-api.com/api/")
         .client(okHttpClient)
         .build()
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): UsersApi = retrofit.create(UsersApi::class.java)
+    fun provideApiService(retrofit: Retrofit): TrivialPursuitQuestionsApi = retrofit.create(TrivialPursuitQuestionsApi::class.java)
 
-    @Provides
-    @Singleton
-    fun provideUserDetailsService(retrofit: Retrofit): DetailsApi =
-        retrofit.create(DetailsApi::class.java)
 
     @Provides
     @Singleton
