@@ -1,6 +1,5 @@
 package com.sauce_hannibal.projet_android_m1cyber.service.account
 
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import javax.inject.Inject

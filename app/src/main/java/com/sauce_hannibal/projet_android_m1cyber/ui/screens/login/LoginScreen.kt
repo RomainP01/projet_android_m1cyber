@@ -42,7 +42,7 @@ fun LoginScreen(
             modifier = modifier.background(color = Color.LightGray)
         )
         Button(onClick = { viewModel.onLoginClick(
-            onLoginSuccess(Route.USER)
+            onLoginSuccess(Route.GAME)
         ) }) {
             Text("Login")
         }

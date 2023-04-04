@@ -47,7 +47,7 @@ fun RegisterScreen(
             modifier = modifier.background(color = Color.Red)
         )
         Button(onClick = {
-            viewModel.onRegisterClick(onRegisterSuccess(Route.USER))
+            viewModel.onRegisterClick(onRegisterSuccess(Route.GAME))
         }) {
             Text("Create account")
         }
