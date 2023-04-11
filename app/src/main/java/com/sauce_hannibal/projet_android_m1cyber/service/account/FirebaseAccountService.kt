@@ -36,5 +36,4 @@ class FirebaseAccountService @Inject constructor(private val auth: FirebaseAuth)
             }
         }
     }
-
 }

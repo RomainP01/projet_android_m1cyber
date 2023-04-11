@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +24,7 @@ fun RegisterScreen(
 ) {
     val viewModel = hiltViewModel<RegisterViewModel>()
     val modifier = Modifier
-    val uiState by viewModel.registerUiState
+    val uiState = viewModel.registerUiState.collectAsState().value
     Column(
         modifier = modifier
             .fillMaxWidth()
