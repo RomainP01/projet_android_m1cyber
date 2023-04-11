@@ -1,10 +1,13 @@
 package com.sauce_hannibal.projet_android_m1cyber.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.sauce_hannibal.projet_android_m1cyber.BuildConfig
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
 import com.sauce_hannibal.projet_android_m1cyber.service.account.AccountService
 import com.sauce_hannibal.projet_android_m1cyber.service.account.FirebaseAccountService
+import com.sauce_hannibal.projet_android_m1cyber.service.database.DatabaseService
+import com.sauce_hannibal.projet_android_m1cyber.service.database.FirestoreDatabaseService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,5 +60,19 @@ object NetworkModule {
     fun provideAccountService(): AccountService = FirebaseAccountService(
         FirebaseAuth.getInstance()
     )
+
+    @Provides
+    @Singleton
+    fun provideDatabaseService(): DatabaseService = FirestoreDatabaseService(
+        FirebaseFirestore.getInstance()
+    )
+
+    @Provides
+    @Singleton
+    fun provideFirestoreDatabaseService(): FirestoreDatabaseService = FirestoreDatabaseService(
+        FirebaseFirestore.getInstance()
+    )
+
+
 
 }
