@@ -1,10 +1,10 @@
-package com.sauce_hannibal.projet_android_m1cyber.service.account
+package com.sauce_hannibal.projet_android_m1cyber.repository.account
 
 import com.google.firebase.auth.FirebaseAuth
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import javax.inject.Inject
 
-class FirebaseAccountService @Inject constructor(private val auth: FirebaseAuth) : AccountService {
+class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAuth) : AccountRepository {
 
     override val currentUser: UserFirebase
         get() = UserFirebase(auth.currentUser?.uid ?: "")

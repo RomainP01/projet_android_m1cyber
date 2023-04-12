@@ -1,13 +1,10 @@
 package com.sauce_hannibal.projet_android_m1cyber.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.sauce_hannibal.projet_android_m1cyber.BuildConfig
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
-import com.sauce_hannibal.projet_android_m1cyber.service.account.AccountService
-import com.sauce_hannibal.projet_android_m1cyber.service.account.FirebaseAccountService
-import com.sauce_hannibal.projet_android_m1cyber.service.database.DatabaseService
-import com.sauce_hannibal.projet_android_m1cyber.service.database.FirestoreDatabaseService
+import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.account.FirebaseAccountRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,35 +42,7 @@ object NetworkModule {
         .client(okHttpClient)
         .build()
 
-    @Provides
     @Singleton
+    @Provides
     fun provideApiService(retrofit: Retrofit): TrivialPursuitQuestionsApi = retrofit.create(TrivialPursuitQuestionsApi::class.java)
-
-
-    @Provides
-    @Singleton
-    fun provideFirebaseAccountService(): FirebaseAccountService = FirebaseAccountService(
-        FirebaseAuth.getInstance()
-    );
-
-    @Provides
-    @Singleton
-    fun provideAccountService(): AccountService = FirebaseAccountService(
-        FirebaseAuth.getInstance()
-    )
-
-    @Provides
-    @Singleton
-    fun provideDatabaseService(): DatabaseService = FirestoreDatabaseService(
-        FirebaseFirestore.getInstance()
-    )
-
-    @Provides
-    @Singleton
-    fun provideFirestoreDatabaseService(): FirestoreDatabaseService = FirestoreDatabaseService(
-        FirebaseFirestore.getInstance()
-    )
-
-
-
 }

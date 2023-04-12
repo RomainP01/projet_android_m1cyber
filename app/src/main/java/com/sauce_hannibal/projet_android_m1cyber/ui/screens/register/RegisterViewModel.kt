@@ -1,9 +1,7 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.register
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.sauce_hannibal.projet_android_m1cyber.service.account.AccountService
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.login.LoginUiState
+import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val accountService: AccountService
+    private val accountRepository: AccountRepository
 ) : ViewModel() {
     private val _registerUiState = MutableStateFlow(RegisterUiState())
 
@@ -41,6 +39,6 @@ class RegisterViewModel @Inject constructor(
 
     fun onRegisterClick(onRegisterSuccess: Unit) {
         //TODO CHECK IF PASSWORDS ARE THE SAME, CHECK IF EMAIL USED
-        accountService.linkAccount(email, password)
+        accountRepository.linkAccount(email, password)
     }
 }

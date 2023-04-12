@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
-import com.sauce_hannibal.projet_android_m1cyber.repository.TrivialPursuitQuestionsRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQuestionsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

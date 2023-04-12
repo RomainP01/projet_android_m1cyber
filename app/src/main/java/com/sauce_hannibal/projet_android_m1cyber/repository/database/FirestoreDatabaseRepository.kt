@@ -1,11 +1,10 @@
-package com.sauce_hannibal.projet_android_m1cyber.service.database
+package com.sauce_hannibal.projet_android_m1cyber.repository.database
 
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirestoreDatabaseService @Inject constructor(private val firestore: FirebaseFirestore) :
-    DatabaseService {
+class FirestoreDatabaseRepository @Inject constructor(private val firestore: FirebaseFirestore) :
+    DatabaseRepository {
 
 
     override fun getLeaderboard(callback: (Map<String, Long>) -> Unit) {

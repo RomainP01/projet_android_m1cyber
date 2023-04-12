@@ -1,4 +1,5 @@
-package com.sauce_hannibal.projet_android_m1cyber.repository
+package com.sauce_hannibal.projet_android_m1cyber.repository.api
+
 
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
