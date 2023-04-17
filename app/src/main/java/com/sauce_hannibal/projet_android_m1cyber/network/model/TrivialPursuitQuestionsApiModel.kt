@@ -19,6 +19,7 @@ data class TrivialPursuitQuestionsModel(
     val tags: List<String> = listOf(),
     @Json(name = "type")
     val type: String = "",
+
     @Json(name = "difficulty")
     val difficulty: String = "",
     @Json(name = "regions")
