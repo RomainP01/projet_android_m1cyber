@@ -37,8 +37,9 @@ class RegisterViewModel @Inject constructor(
         _registerUiState.value = registerUiState.value.copy(confirmationPassword = newValue)
     }
 
-    fun onRegisterClick(onRegisterSuccess: Unit) {
+    fun register() {
         //TODO CHECK IF PASSWORDS ARE THE SAME, CHECK IF EMAIL USED
         accountRepository.linkAccount(email, password)
+        _registerUiState.value = registerUiState.value.copy(isConnected = true)
     }
 }

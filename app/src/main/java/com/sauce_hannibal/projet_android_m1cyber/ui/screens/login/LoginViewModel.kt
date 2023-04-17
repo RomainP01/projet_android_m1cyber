@@ -25,12 +25,10 @@ class LoginViewModel @Inject constructor(
         _loginUiState.value = _loginUiState.value.copy(password = newValue)
     }
 
-    fun onLoginClick(onLoginSuccess: Unit) {
-        val email = loginUiState.value.email
-        val password = loginUiState.value.password
+    fun login(email: String, password: String) {
         //TODO check if email is valid and password is not empty
         accountRepository.login(email, password)
-        return onLoginSuccess
+        _loginUiState.value = _loginUiState.value.copy(isConnected = true)
     }
 
 }

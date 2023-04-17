@@ -10,21 +10,21 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: (String) -> Unit,
-    onRegisterClick: (String) -> Unit,
-) {
+fun LoginScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val modifier = Modifier
     val uiState = viewModel.loginUiState.collectAsState().value
+    if (uiState.isConnected) {
+        navController.navigate(Route.GAME)
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -42,12 +42,14 @@ fun LoginScreen(
             viewModel::onPasswordChange,
             modifier = modifier.background(color = Color.LightGray)
         )
-        Button(onClick = { viewModel.onLoginClick(
-            onLoginSuccess(Route.GAME)
-        ) }) {
+        Button(onClick = {
+            viewModel.login(
+                uiState.email, uiState.password
+            )
+        }) {
             Text("Login")
         }
-        Button(onClick = { onRegisterClick(Route.REGISTER) }) {
+        Button(onClick = { navController.navigate(Route.REGISTER) }) {
             Text(text = "Register")
         }
     }

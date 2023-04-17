@@ -19,40 +19,16 @@ fun ComposeApp() {
     ) {
         composable(Route.LOGIN) {
             LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(Route.GAME)
-                },
-                onRegisterClick = {
-                    navController.navigate(Route.REGISTER)
-                }
+                navController
             )
         }
         composable(Route.REGISTER) {
             RegisterScreen(
-                onRegisterSuccess = {
-                    navController.navigate(Route.GAME)
-                },
-                onLoginClick = {
-                    navController.navigate(Route.LOGIN)
-                }
+                navController
             )
         }
-        composable(Route.GAME) {
-            TemplateScreen(
-                page = { GameScreen() },
-                navController = navController,
-                currentScreen = Route.GAME
-            )
-        }
-        composable(Route.LEADERBOARD) {
-            TemplateScreen(
-                page = { LeaderboardScreen() },
-                navController = navController,
-                currentScreen = Route.LEADERBOARD
-            )
-        }
-
-
+        composable(Route.GAME) { GameScreen() }
+        composable(Route.LEADERBOARD) { LeaderboardScreen() }
     }
 }
 

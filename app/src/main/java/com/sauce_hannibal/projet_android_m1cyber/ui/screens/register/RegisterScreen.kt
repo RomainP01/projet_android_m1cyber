@@ -10,18 +10,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 
 @Composable
-fun RegisterScreen(
-    onRegisterSuccess: (String) -> Unit,
-    onLoginClick: (String) -> Unit,
-) {
+fun RegisterScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<RegisterViewModel>()
     val modifier = Modifier
     val uiState = viewModel.registerUiState.collectAsState().value
@@ -48,11 +45,11 @@ fun RegisterScreen(
             modifier = modifier.background(color = Color.Red)
         )
         Button(onClick = {
-            viewModel.onRegisterClick(onRegisterSuccess(Route.GAME))
+            viewModel.register()
         }) {
             Text("Create account")
         }
-        Button(onClick = { onLoginClick(Route.LOGIN) }) {
+        Button(onClick = { navController.navigate(Route.LOGIN) }) {
             Text(text = "Already have an account? Login here")
         }
     }
