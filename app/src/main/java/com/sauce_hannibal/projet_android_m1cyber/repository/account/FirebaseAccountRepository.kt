@@ -1,10 +1,13 @@
 package com.sauce_hannibal.projet_android_m1cyber.repository.account
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAuth) : AccountRepository {
+class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAuth) :
+    AccountRepository {
 
     override val currentUser: UserFirebase
         get() = UserFirebase(auth.currentUser?.uid ?: "")
@@ -34,6 +37,15 @@ class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAu
                 println("signInWithEmail:failure")
                 println(task.exception)
             }
+        }
+    }
+
+    override suspend  fun signUp(email: String, password: String): FirebaseUser? {
+        return try {
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            result.user
+        } catch (e: Exception) {
+            throw e
         }
     }
 }

@@ -33,8 +33,8 @@ fun LeaderboardScreen(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = user.key)
-                Text(text = user.value.toString())
+                Text(text = user.pseudo)
+                Text(text = user.score.toString())
             }
         }
     }
