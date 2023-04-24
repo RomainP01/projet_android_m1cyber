@@ -5,17 +5,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.login.LoginScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.register.RegisterScreen
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.template.TemplateScreen
 
 @Composable
 fun ComposeApp() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.LOGIN
+        startDestination = Route.HOME
     ) {
         composable(Route.LOGIN) {
             LoginScreen(
@@ -29,6 +29,7 @@ fun ComposeApp() {
         }
         composable(Route.GAME) { GameScreen() }
         composable(Route.LEADERBOARD) { LeaderboardScreen() }
+        composable(Route.HOME){HomeScreen(navController)}
     }
 }
 

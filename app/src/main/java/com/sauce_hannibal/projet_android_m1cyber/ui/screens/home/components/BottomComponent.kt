@@ -1,4 +1,4 @@
-package com.sauce_hannibal.projet_android_m1cyber.ui.screens.template.components
+package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

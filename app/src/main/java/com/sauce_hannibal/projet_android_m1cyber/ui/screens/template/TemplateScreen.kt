@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.template.components.BottomComponent
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.template.components.TopComponent
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.BottomComponent
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.TopComponent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
