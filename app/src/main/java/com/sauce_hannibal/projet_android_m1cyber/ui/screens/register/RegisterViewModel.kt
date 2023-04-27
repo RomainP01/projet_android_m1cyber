@@ -47,7 +47,7 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val uid = accountRepository.signUp(email,password)?.uid
             if (uid != null) {
-               _registerUiState.value.isConnected = userFirebaseRepository.insertUser(uid, UserFirebase("Romain"))
+               _registerUiState.value.isConnected = userFirebaseRepository.insertUser(uid, UserFirebase(uid,"Romain" ) )
             }
         }
     }

@@ -10,7 +10,7 @@ class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAu
     AccountRepository {
 
     override val currentUser: UserFirebase
-        get() = UserFirebase(auth.currentUser?.uid ?: "")
+        get() = UserFirebase(auth.currentUser?.uid ?: "", "mamaaaa")
 
     override fun login(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->

@@ -15,7 +15,7 @@ fun ComposeApp() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.LOGIN
+        startDestination = Route.GAME
     ) {
         composable(Route.LOGIN) {
             LoginScreen(
@@ -37,6 +37,5 @@ object Route {
     const val REGISTER = "register"
     const val GAME = "game"
     const val LEADERBOARD = "leaderboard"
-    const val STREAK = "streak"
     const val HOME = "home"
 }
