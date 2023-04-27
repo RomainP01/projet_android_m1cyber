@@ -12,7 +12,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 @Composable
 fun BottomComponent(navController: NavController, currentScreen: String) {
     NavigationBar {
-        NavigationBarItem(selected = Route.STREAK === currentScreen,
+        /*NavigationBarItem(selected = Route.STREAK === currentScreen,
             onClick = { navController.navigate(Route.STREAK) },
             icon = {
                 Icon(
@@ -20,7 +20,7 @@ fun BottomComponent(navController: NavController, currentScreen: String) {
                     contentDescription = "streak icon"
                 )
             }
-        )
+        )*/
         NavigationBarItem(selected = Route.HOME === currentScreen,
             onClick = { navController.navigate(Route.HOME) },
             icon = {

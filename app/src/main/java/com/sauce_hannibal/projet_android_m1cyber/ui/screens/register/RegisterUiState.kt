@@ -4,5 +4,5 @@ data class RegisterUiState(
     val email: String = "",
     val password: String = "",
     val confirmationPassword: String = "",
-    val isConnected:Boolean = false
+    var isConnected:Boolean = false
 )

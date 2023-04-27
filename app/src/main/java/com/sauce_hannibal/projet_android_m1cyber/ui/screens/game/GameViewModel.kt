@@ -4,57 +4,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
+import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQuestionsRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.LeaderboardFirebaseRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository
+    private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository,
+    private val leaderboardFirebaseRepository: LeaderboardFirebaseRepository,
+    private val userFirebaseRepository: UserFirebaseRepository
 ) : ViewModel() {
     private val _gameUiState = MutableStateFlow(GameUiState())
     val gameUiState: StateFlow<GameUiState>
         get() = _gameUiState
 
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val questionList = trivialPursuitQuestionsRepository.getQuestions()
-            withContext(Dispatchers.Main) {
-                if (questionList.isEmpty()) {
-                    _gameUiState.value = _gameUiState.value.copy(
-                        questions = listOf(),
-                        currentQuestion = null,
-                        possibleAnswers = listOf(),
-                        numberOfQuestions = 0,
-                        numberOfQuestionsAnswered = 0,
-                        userScore = 0,
-                        isAnswerCorrect = null,
-                        answerSelected = null,
-                        timer = 0
-                    )
-                } else {
-                    val currentQuestion = questionList[0]
-                    val possibleAnswers = createPossibleAnswers(currentQuestion)
-                    _gameUiState.value = _gameUiState.value.copy(
-                        questions = questionList,
-                        currentQuestion = currentQuestion,
-                        possibleAnswers = possibleAnswers,
-                        numberOfQuestions = 20,
-                        numberOfQuestionsAnswered = 0,
-                        userScore = 0,
-                        isAnswerCorrect = null,
-                        answerSelected = null,
-                        timer = 20
-                    )
-                }
-            }
+            val questions = runBlocking { trivialPursuitQuestionsRepository.getQuestions() }
+            val currentQuestion = questions[0]
+            val possibleAnswers = createPossibleAnswers(currentQuestion)
+            _gameUiState.value = _gameUiState.value.copy(
+                questions = questions,
+                currentQuestion = currentQuestion,
+                possibleAnswers = possibleAnswers,
+                numberOfQuestions = 20,
+                numberOfQuestionsAnswered = 0,
+                userScore = 0,
+                isAnswerCorrect = null,
+                answerSelected = null,
+                timer = 20
+            )
         }
     }
 
@@ -80,16 +67,18 @@ class GameViewModel @Inject constructor(
         return possibleAnswers.shuffled()
     }
 
+    private fun handleEndOfGame() {
+        _gameUiState.value.isEnded = true
+        //TO DO GET USER
+        val user = UserFirebase("2oqbLRnernPZ83ktadRxX0eUXJv2", "Romain")
+        leaderboardFirebaseRepository.insertScore(user, gameUiState.value.userScore)
+        resetGameUiState()
+    }
+
 
     private fun changeToNextQuestion() {
         if (gameUiState.value.numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
-            _gameUiState.value = _gameUiState.value.copy(
-                currentQuestion = null,
-                possibleAnswers = listOf(),
-                isAnswerCorrect = null,
-                answerSelected = null,
-                timer = 20
-            )
+            handleEndOfGame()
             return
         }
         val currentQuestion =
