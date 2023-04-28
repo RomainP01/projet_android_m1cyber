@@ -40,8 +40,8 @@ fun HomeScreen(navController: NavHostController) {
                     navController.navigate(Route.GAME)
                 }
             ) {
-                Text(text = "Mode Classique")
-                Text("20 questions, fait le meilleure score")
+                Text(text = "Daily Ranked  ")
+                Text("10 questions")
             }
             Button(
                 modifier = modifier

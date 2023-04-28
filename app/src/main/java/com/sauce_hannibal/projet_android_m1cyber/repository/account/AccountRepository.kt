@@ -8,6 +8,6 @@ interface AccountRepository {
     fun login(email: String, password: String)
     fun logout()
     fun linkAccount(email: String, password: String)
-
     suspend fun signUp(email: String, password: String): FirebaseUser?
+    suspend fun getUserLoggedIn(): FirebaseUser?
 }
