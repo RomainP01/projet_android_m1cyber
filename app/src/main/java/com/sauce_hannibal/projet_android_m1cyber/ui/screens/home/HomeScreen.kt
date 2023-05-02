@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameViewModel
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.BottomComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.TopComponent
 
@@ -35,7 +34,8 @@ fun HomeScreen(navController: NavHostController) {
             Button(
                 modifier = modifier
                     .padding(16.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(color = viewModel.buttonBackgroundColor(gameUiState.isDailyChallengeDone)),
                 onClick = {
                     navController.navigate(Route.GAME)
                 }

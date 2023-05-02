@@ -33,8 +33,24 @@ fun LeaderboardScreen(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = user.pseudo)
-                Text(text = user.score.toString())
+                Text(
+                    text = "Romain",
+                    modifier = modifier
+                        .fillMaxWidth(0.5f)
+                        .background(Color.Green)
+                )
+                Text(
+                    text = user.dailyScore.toString(),
+                    modifier = modifier
+                        .fillMaxWidth(0.5f)
+                        .background(Color.Green)
+                )
+                Text(
+                    text = user.allTimeScore.toString(),
+                    modifier = modifier
+                        .fillMaxWidth(0.5f)
+                        .background(Color.Green)
+                )
             }
         }
     }

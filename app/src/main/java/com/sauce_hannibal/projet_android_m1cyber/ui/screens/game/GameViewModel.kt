@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.*
 import javax.inject.Inject
 
 
@@ -35,7 +36,7 @@ class GameViewModel @Inject constructor(
                 questions = questions,
                 currentQuestion = currentQuestion,
                 possibleAnswers = possibleAnswers,
-                numberOfQuestions = 20,
+                numberOfQuestions = questions.size,
                 numberOfQuestionsAnswered = 0,
                 userScore = 0,
                 isAnswerCorrect = null,
@@ -67,27 +68,33 @@ class GameViewModel @Inject constructor(
         return possibleAnswers.shuffled()
     }
 
-    private fun handleEndOfGame() {
+    private suspend fun handleEndOfGame() {
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }.time
         _gameUiState.value.isEnded = true
-        //TO DO GET USER
-        val user = UserFirebase("2oqbLRnernPZ83ktadRxX0eUXJv2", "Romain")
-        leaderboardFirebaseRepository.insertScore(user, gameUiState.value.userScore)
+        val user = UserFirebase("ZaIlsATA9DOrErvjrz5sP8CX6A93", "Romain")
+        leaderboardFirebaseRepository.insertOrUpdateScore(user.uid, gameUiState.value.userScore)
+        userFirebaseRepository.updateLastTimeDailyAnswered(user.uid, today)
         resetGameUiState()
     }
 
 
-    private fun changeToNextQuestion() {
-        if (gameUiState.value.numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
+    private suspend fun changeToNextQuestion() {
+        val numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered+1
+        if (numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
             handleEndOfGame()
             return
         }
         val currentQuestion =
-            gameUiState.value.questions[gameUiState.value.numberOfQuestionsAnswered]
+            gameUiState.value.questions[numberOfQuestionsAnswered]
         val possibleAnswers = createPossibleAnswers(currentQuestion)
         _gameUiState.value = _gameUiState.value.copy(
             currentQuestion = currentQuestion,
             possibleAnswers = possibleAnswers,
-            numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered + 1,
+            numberOfQuestionsAnswered = numberOfQuestionsAnswered,
             isAnswerCorrect = null,
             answerSelected = null
         )

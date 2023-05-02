@@ -1,9 +1,11 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +27,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             //wait for user to be logged in
             val user = accountRepository.getUserLoggedIn()
+            isDailyChallengeDone()
             if (user != null) {
                 val userFirebase = userFirebaseRepository.getUser(user.uid)
                 _homeUiState.value = _homeUiState.value.copy(currentUser = userFirebase)
@@ -33,7 +36,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    suspend fun isDailyChallengeDone(): Boolean {
+    private suspend fun isDailyChallengeDone() {
         val today = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -46,7 +49,14 @@ class HomeViewModel @Inject constructor(
                 isDone = lastTimeDailyAnswered == today
             }
         }
-        return isDone
+        _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = isDone)
+    }
+
+    fun buttonBackgroundColor(isDailyChallengeDone: Boolean): Color {
+        if (isDailyChallengeDone) {
+            return Color.Gray
+        }
+        return Purple200
     }
 
 

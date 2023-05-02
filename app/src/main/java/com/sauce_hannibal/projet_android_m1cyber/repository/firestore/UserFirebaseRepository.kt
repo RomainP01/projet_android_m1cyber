@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Date
 import javax.inject.Inject
 
 class UserFirebaseRepository @Inject constructor(private val firestore: FirebaseFirestore) {
@@ -24,6 +25,10 @@ class UserFirebaseRepository @Inject constructor(private val firestore: Firebase
         } catch (e: Exception) {
             throw e
         }
+    }
+
+    fun updateLastTimeDailyAnswered(id: String, lastTimeDailyAnswered: Date): Boolean {
+        return firestore.collection(_collection).document(id).update("lastTimeDailyAnswered", lastTimeDailyAnswered).isSuccessful
     }
 
     companion object {

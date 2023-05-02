@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 data class HomeUiState(
     val currentScreen: String = Route.HOME,
     val currentUser: Flow<UserFirebase>? = null,
+    val isDailyChallengeDone: Boolean = false,
 )
