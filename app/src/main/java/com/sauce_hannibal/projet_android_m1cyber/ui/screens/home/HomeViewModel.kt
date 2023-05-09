@@ -7,10 +7,8 @@ import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepos
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -29,12 +27,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val user = accountRepository.getUserLoggedIn()
             if (user != null) {
-                userFirebaseRepository.getUser(user.uid).collect { userFirebase ->
+                userFirebaseRepository.getUser(user.uid).collectLatest { userFirebase ->
                     _homeUiState.value = _homeUiState.value.copy(currentUser = userFirebase)
+                    isDailyChallengeDone()
                 }
             }
         }
     }
+
 
 
     private fun isDailyChallengeDone() {
@@ -44,14 +44,19 @@ class HomeViewModel @Inject constructor(
             set(Calendar.SECOND, 0)
         }.time
 
-        var isDone = false
-        _homeUiState.value.currentUser?.lastTimeDailyAnswered?.let { lastTimeDailyAnswered ->
-            if (lastTimeDailyAnswered.after(today)) {
-                isDone = true
+        viewModelScope.launch {
+            val currentUser = _homeUiState.value.currentUser
+            if (currentUser != null) {
+                val lastTimeDailyAnswered = currentUser.lastTimeDailyAnswered
+                if (lastTimeDailyAnswered != null && lastTimeDailyAnswered.after(today)) {
+                    _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = true)
+                } else {
+                    _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = false)
+                }
             }
         }
-        _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = isDone)
     }
+
 
 
     fun buttonBackgroundColor(isDailyChallengeDone: Boolean): Color {

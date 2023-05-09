@@ -5,10 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -18,6 +15,7 @@ import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.BottomComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.TopComponent
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +35,10 @@ fun HomeScreen(navController: NavHostController) {
                     .fillMaxWidth(),
                 onClick = {
                     navController.navigate(Route.GAME)
-                }
-            ) {
+                },
+                enabled = !gameUiState.isDailyChallengeDone,
+
+                ) {
                 Text(text = "Daily Ranked  ")
                 Text("10 questions")
             }
