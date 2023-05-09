@@ -28,7 +28,8 @@ class UserFirebaseRepository @Inject constructor(private val firestore: Firebase
     }
 
     fun updateLastTimeDailyAnswered(id: String, lastTimeDailyAnswered: Date): Boolean {
-        return firestore.collection(_collection).document(id).update("lastTimeDailyAnswered", lastTimeDailyAnswered).isSuccessful
+        return firestore.collection(_collection).document(id)
+            .update("lastTimeDailyAnswered", lastTimeDailyAnswered).isSuccessful
     }
 
     companion object {

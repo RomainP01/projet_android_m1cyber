@@ -34,8 +34,7 @@ fun HomeScreen(navController: NavHostController) {
             Button(
                 modifier = modifier
                     .padding(16.dp)
-                    .fillMaxWidth()
-                    .background(color = viewModel.buttonBackgroundColor(gameUiState.isDailyChallengeDone)),
+                    .fillMaxWidth(),
                 onClick = {
                     navController.navigate(Route.GAME)
                 }

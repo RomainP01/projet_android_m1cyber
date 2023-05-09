@@ -76,8 +76,8 @@ class GameViewModel @Inject constructor(
         }.time
         _gameUiState.value.isEnded = true
         val user = UserFirebase("ZaIlsATA9DOrErvjrz5sP8CX6A93", "Romain")
-        leaderboardFirebaseRepository.insertOrUpdateScore(user.uid, gameUiState.value.userScore)
-        userFirebaseRepository.updateLastTimeDailyAnswered(user.uid, today)
+        user.uid?.let { leaderboardFirebaseRepository.insertOrUpdateScore(it, gameUiState.value.userScore) }
+        user.uid?.let { userFirebaseRepository.updateLastTimeDailyAnswered(it, today) }
         resetGameUiState()
     }
 

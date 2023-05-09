@@ -7,8 +7,10 @@ import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepos
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,18 +27,17 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            //wait for user to be logged in
             val user = accountRepository.getUserLoggedIn()
-            isDailyChallengeDone()
             if (user != null) {
-                val userFirebase = userFirebaseRepository.getUser(user.uid)
-                _homeUiState.value = _homeUiState.value.copy(currentUser = userFirebase)
+                userFirebaseRepository.getUser(user.uid).collect { userFirebase ->
+                    _homeUiState.value = _homeUiState.value.copy(currentUser = userFirebase)
+                }
             }
         }
-
     }
 
-    private suspend fun isDailyChallengeDone() {
+
+    private fun isDailyChallengeDone() {
         val today = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -44,13 +45,14 @@ class HomeViewModel @Inject constructor(
         }.time
 
         var isDone = false
-        _homeUiState.value.currentUser?.collectLatest {
-            it.lastTimeDailyAnswered?.let { lastTimeDailyAnswered ->
-                isDone = lastTimeDailyAnswered == today
+        _homeUiState.value.currentUser?.lastTimeDailyAnswered?.let { lastTimeDailyAnswered ->
+            if (lastTimeDailyAnswered.after(today)) {
+                isDone = true
             }
         }
         _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = isDone)
     }
+
 
     fun buttonBackgroundColor(isDailyChallengeDone: Boolean): Color {
         if (isDailyChallengeDone) {

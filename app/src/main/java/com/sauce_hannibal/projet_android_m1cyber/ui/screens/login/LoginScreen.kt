@@ -23,7 +23,7 @@ fun LoginScreen(navController: NavHostController) {
     val modifier = Modifier
     val uiState = viewModel.loginUiState.collectAsState().value
     if (uiState.isConnected) {
-        navController.navigate(Route.GAME)
+        navController.navigate(Route.HOME)
     }
     Column(
         modifier = modifier
