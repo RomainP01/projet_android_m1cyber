@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQuestionsRepository
-import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.LeaderboardFirebaseRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -19,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository,
-    private val leaderboardFirebaseRepository: LeaderboardFirebaseRepository,
     private val userFirebaseRepository: UserFirebaseRepository
 ) : ViewModel() {
     private val _gameUiState = MutableStateFlow(GameUiState())
@@ -76,14 +74,14 @@ class GameViewModel @Inject constructor(
         }.time
         _gameUiState.value.isEnded = true
         val user = UserFirebase("ZaIlsATA9DOrErvjrz5sP8CX6A93", "Romain")
-        user.uid?.let { leaderboardFirebaseRepository.insertOrUpdateScore(it, gameUiState.value.userScore) }
+        userFirebaseRepository.updateScores(user.uid!!, gameUiState.value.userScore)
         user.uid?.let { userFirebaseRepository.updateLastTimeDailyAnswered(it, today) }
         resetGameUiState()
     }
 
 
     private suspend fun changeToNextQuestion() {
-        val numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered+1
+        val numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered + 1
         if (numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
             handleEndOfGame()
             return

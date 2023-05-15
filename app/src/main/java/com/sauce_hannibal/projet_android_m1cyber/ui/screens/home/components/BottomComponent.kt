@@ -12,15 +12,15 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 @Composable
 fun BottomComponent(navController: NavController, currentScreen: String) {
     NavigationBar {
-        /*NavigationBarItem(selected = Route.STREAK === currentScreen,
-            onClick = { navController.navigate(Route.STREAK) },
+        NavigationBarItem(selected = Route.PROFILE === currentScreen,
+            onClick = { navController.navigate(Route.PROFILE) },
             icon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_fire),
-                    contentDescription = "streak icon"
+                    painter = painterResource(id = R.drawable.ic_account),
+                    contentDescription = "home icon"
                 )
             }
-        )*/
+        )
         NavigationBarItem(selected = Route.HOME === currentScreen,
             onClick = { navController.navigate(Route.HOME) },
             icon = {

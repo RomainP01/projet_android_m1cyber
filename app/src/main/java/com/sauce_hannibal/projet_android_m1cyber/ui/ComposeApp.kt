@@ -30,6 +30,7 @@ fun ComposeApp() {
         composable(Route.GAME) { GameScreen() }
         composable(Route.LEADERBOARD) { LeaderboardScreen() }
         composable(Route.HOME){HomeScreen(navController)}
+        composable(Route.PROFILE){HomeScreen(navController)}
     }
 }
 
@@ -39,4 +40,5 @@ object Route {
     const val GAME = "game"
     const val LEADERBOARD = "leaderboard"
     const val HOME = "home"
+    const val PROFILE = "profile"
 }

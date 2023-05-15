@@ -25,7 +25,7 @@ fun LeaderboardScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        for (user in uiState.leaderboard) {
+        for (user in uiState.users) {
             Row(
                 modifier = modifier
                     .fillMaxWidth()
@@ -33,20 +33,16 @@ fun LeaderboardScreen(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                user.pseudo?.let {
+                    Text(
+                        text = it,
+                        modifier = modifier
+                            .fillMaxWidth(0.5f)
+                            .background(Color.Green)
+                    )
+                }
                 Text(
-                    text = "Romain",
-                    modifier = modifier
-                        .fillMaxWidth(0.5f)
-                        .background(Color.Green)
-                )
-                Text(
-                    text = user.dailyScore.toString(),
-                    modifier = modifier
-                        .fillMaxWidth(0.5f)
-                        .background(Color.Green)
-                )
-                Text(
-                    text = user.allTimeScore.toString(),
+                    if (uiState.isAllTimeScore) user.allTimeScore.toString() else user.dailyScore.toString(),
                     modifier = modifier
                         .fillMaxWidth(0.5f)
                         .background(Color.Green)

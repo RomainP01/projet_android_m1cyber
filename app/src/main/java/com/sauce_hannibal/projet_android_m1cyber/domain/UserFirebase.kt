@@ -6,4 +6,6 @@ data class UserFirebase(
     val uid: String? = null,
     val pseudo: String? = null,
     val lastTimeDailyAnswered: Date? = null,
+    val dailyScore: Int? = null,
+    val allTimeScore: Int? = null,
 )

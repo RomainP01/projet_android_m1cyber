@@ -32,6 +32,18 @@ class UserFirebaseRepository @Inject constructor(private val firestore: Firebase
             .update("lastTimeDailyAnswered", lastTimeDailyAnswered).isSuccessful
     }
 
+    fun updateScores(id: String, score: Int) {
+        firestore.collection(_collection).document(id).get().addOnSuccessListener {
+            val allTimeScore = it.get("allTimeScore") as Long
+            if (score > allTimeScore) {
+                firestore.collection(_collection).document(id)
+                    .update("allTimeScore", score)
+            }
+        }
+        firestore.collection(_collection).document(id)
+            .update("dailyScore", score)
+    }
+
     companion object {
         private const val _collection = "USERS"
     }
