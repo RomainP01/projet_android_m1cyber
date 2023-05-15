@@ -28,7 +28,14 @@ import java.util.Timer
 fun HomeScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val gameUiState = viewModel.homeUiState.collectAsState().value
-    Scaffold() {
+    Scaffold(
+        bottomBar = {
+            BottomComponent(
+                navController = navController,
+                currentScreen = Route.HOME
+            )
+        }
+    ) {
         Column() {
             Button(
                 modifier = Modifier

@@ -38,6 +38,5 @@ object Route {
     const val REGISTER = "register"
     const val GAME = "game"
     const val LEADERBOARD = "leaderboard"
-    const val STREAK = "streak"
     const val HOME = "home"
 }
