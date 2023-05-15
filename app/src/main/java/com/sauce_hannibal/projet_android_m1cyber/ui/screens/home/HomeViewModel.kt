@@ -27,24 +27,33 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-
+            val user = accountRepository.getUserLoggedIn()
+            if (user != null) {
+                userFirebaseRepository.getUser(user.uid).collectLatest { userFirebase ->
+                    _homeUiState.value = _homeUiState.value.copy(currentUser = userFirebase)
+                    setIsDailyChallengeDone()
+                }
+            }
         }
     }
 
 
     private fun setIsDailyChallengeDone() {
-        val today = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-        }.time
+        val today = Calendar.getInstance()
         val currentUser = _homeUiState.value.currentUser
         if (currentUser != null) {
             val lastTimeDailyAnswered = currentUser.lastTimeDailyAnswered
-            if (lastTimeDailyAnswered != null && lastTimeDailyAnswered.after(today)) {
-                _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = true)
-            } else {
-                _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = false)
+            if (lastTimeDailyAnswered != null) {
+                val lastAnsweredCalendar =
+                    Calendar.getInstance().apply { time = lastTimeDailyAnswered }
+                if (lastAnsweredCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    && lastAnsweredCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                    && lastAnsweredCalendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
+                ) {
+                    _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = true)
+                } else {
+                    _homeUiState.value = _homeUiState.value.copy(isDailyChallengeDone = false)
+                }
             }
         }
     }
