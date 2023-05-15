@@ -2,7 +2,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.LeaderboardFirebaseRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LeaderboardViewModel @Inject constructor(
-    private val leaderboardFirebaseRepository: LeaderboardFirebaseRepository
+    private val userFirebaseRepository: UserFirebaseRepository
 ) : ViewModel() {
     private val _leaderboardUiState = MutableStateFlow(LeaderboardUiState())
     val leaderboardUiState: StateFlow<LeaderboardUiState>
@@ -21,9 +21,12 @@ class LeaderboardViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            leaderboardFirebaseRepository.getAll().collect {
-                _leaderboardUiState.value = _leaderboardUiState.value.copy(leaderboard = it)
+            userFirebaseRepository.getAll().collect {
+                _leaderboardUiState.value =
+                    _leaderboardUiState.value.copy(users = it, isAllTimeScore = true)
             }
         }
     }
+
+
 }
