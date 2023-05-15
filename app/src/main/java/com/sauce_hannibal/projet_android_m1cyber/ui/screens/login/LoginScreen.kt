@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,9 +23,11 @@ fun LoginScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val modifier = Modifier
     val uiState = viewModel.loginUiState.collectAsState().value
-    if (uiState.isConnected) {
-        navController.navigate(Route.HOME)
-    }
+    LaunchedEffect(key1 = uiState, block ={
+        if (uiState.isConnected) {
+            navController.navigate(Route.HOME)
+        }
+    } )
     Column(
         modifier = modifier
             .fillMaxWidth()

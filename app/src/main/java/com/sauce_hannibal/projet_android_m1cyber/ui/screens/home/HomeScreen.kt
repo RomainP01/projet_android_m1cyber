@@ -22,28 +22,24 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.TopC
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeViewModel>()
-    val modifier = Modifier
     val gameUiState = viewModel.homeUiState.collectAsState().value
-    Scaffold(
-        topBar = { TopComponent() },
-        bottomBar = { BottomComponent(navController = navController, currentScreen = Route.HOME) },
-    ) {
+    Scaffold() {
         Column() {
             Button(
-                modifier = modifier
+                modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(viewModel.buttonBackgroundColor(gameUiState.isDailyChallengeDone)),
                 onClick = {
                     navController.navigate(Route.GAME)
                 },
-                enabled = !gameUiState.isDailyChallengeDone,
-
-                ) {
+                enabled = !gameUiState.isDailyChallengeDone
+            ) {
                 Text(text = "Daily Ranked  ")
                 Text("10 questions")
             }
             Button(
-                modifier = modifier
+                modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
                 onClick = {
