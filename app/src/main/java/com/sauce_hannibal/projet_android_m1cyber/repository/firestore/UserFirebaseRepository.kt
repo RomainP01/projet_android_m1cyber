@@ -39,9 +39,10 @@ class UserFirebaseRepository @Inject constructor(private val firestore: Firebase
                 firestore.collection(_collection).document(id)
                     .update("allTimeScore", score)
             }
+            firestore.collection(_collection).document(id)
+                .update("dailyScore", score)
+
         }
-        firestore.collection(_collection).document(id)
-            .update("dailyScore", score)
     }
 
     companion object {
