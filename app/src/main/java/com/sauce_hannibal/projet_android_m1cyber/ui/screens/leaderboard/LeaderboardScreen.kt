@@ -4,11 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.magnifier
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,9 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,11 +25,18 @@ fun LeaderboardScreen() {
     val modifier = Modifier
     val uiState = viewModel.leaderboardUiState.collectAsState().value
     var isAllTimeScore by remember { mutableStateOf(uiState.isAllTimeScore) }
+
     val filteredUsers = if (isAllTimeScore) {
-        uiState.users.filter { it.allTimeScore != null }
+        uiState.users
+            .filter { it.allTimeScore != null }
+            .sortedByDescending { it.allTimeScore }
     } else {
-        uiState.users.filter { it.dailyScore != null }
+        uiState.users
+            .filter { it.dailyScore != null }
+            .sortedByDescending { it.dailyScore }
     }
+
+
 
     Column(
         modifier = modifier
@@ -48,7 +49,7 @@ fun LeaderboardScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 30.dp)
-            .wrapContentSize(Alignment.Center)
+                .wrapContentSize(Alignment.Center)
 
         )
         // Row contenant deux boutons changeant le mode d'affichage
@@ -102,7 +103,18 @@ fun LeaderboardScreen() {
                     .size(120.dp)
                     .background(Color.LightGray)
                     .border(width = 2.dp, color = Color.Black)
-            ) {}
+            ) {                 Text(
+                text = if (isAllTimeScore) {
+                    filteredUsers.getOrNull(1)?.allTimeScore.toString()
+                } else {
+                    filteredUsers.getOrNull(1)?.dailyScore.toString()
+                },
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.Center)
+
+            )
+            }
         }
 
         Spacer(modifier = Modifier.width(5.dp))
@@ -120,7 +132,19 @@ fun LeaderboardScreen() {
                     .size(150.dp)
                     .background(Color.LightGray)
                     .border(width = 2.dp, color = Color.Black)
-            )
+            ) {
+                Text(
+                    text = if (isAllTimeScore) {
+                        filteredUsers.getOrNull(0)?.allTimeScore.toString()
+                    } else {
+                        filteredUsers.getOrNull(0)?.dailyScore.toString()
+                    },
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Center)
+
+                )
+            }
         }
         Spacer(modifier = Modifier.width(5.dp))
 
@@ -138,7 +162,20 @@ fun LeaderboardScreen() {
                     .background(Color.LightGray)
                     .border(width = 2.dp, color = Color.Black)
 
-            )
+            ) {
+                Text(
+                    text = if (isAllTimeScore) {
+                        filteredUsers.getOrNull(2)?.allTimeScore.toString()
+                    } else {
+                        filteredUsers.getOrNull(2)?.dailyScore.toString()
+                    },
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Center)
+
+                )
+
+            }
         }
 
     }
