@@ -179,6 +179,43 @@ fun LeaderboardScreen() {
         }
 
     }
+    if (filteredUsers.size > 3) {
+        filteredUsers.subList(3, filteredUsers.size).forEachIndexed { index, user ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Canvas(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(bottom = 5.dp),
+                    onDraw = { drawCircle(color = Color.LightGray) }
+                )
+
+                Text(
+                    text = user.pseudo ?: "",
+                    modifier = Modifier.padding(start = 8.dp),
+                    color = Color.Black
+                )
+
+                Text(
+                    text = if (isAllTimeScore) {
+                        user.allTimeScore?.toString() ?: ""
+                    } else {
+                        user.dailyScore?.toString() ?: ""
+                    },
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 16.dp)
+                        .weight(1f)
+                        .wrapContentWidth(Alignment.End),
+                    color = Color.Black,
+                    textAlign = TextAlign.End
+                )
+            }
+        }
+    }
     for (user in uiState.users) {
         Row(
             modifier = modifier
