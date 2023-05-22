@@ -29,7 +29,8 @@ fun HomeScreen() {
     Scaffold(
         bottomBar = {
             NavigationBar {
-                NavigationBarItem(selected = currentIndex == 0,
+                NavigationBarItem(
+                    selected = currentIndex == 0,
                     onClick = {
                         currentIndex = 0
                         navController.navigate(HomeRoute.PROFILE)
@@ -39,7 +40,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_account),
                             contentDescription = "home icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex != 4
                 )
                 NavigationBarItem(selected = currentIndex == 1,
                     onClick = {
@@ -51,7 +53,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_home),
                             contentDescription = "home icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex != 4
                 )
                 NavigationBarItem(selected = currentIndex == 2,
                     onClick = {
@@ -63,7 +66,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_leaderboard),
                             contentDescription = "leaderboard icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex != 4
                 )
             }
         }
