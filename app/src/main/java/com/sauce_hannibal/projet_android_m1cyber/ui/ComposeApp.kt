@@ -8,6 +8,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.login.LoginScreen
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.register.RegisterScreen
 
 @Composable
@@ -27,18 +28,12 @@ fun ComposeApp() {
                 navController
             )
         }
-        composable(Route.GAME) { GameScreen() }
-        composable(Route.LEADERBOARD) { LeaderboardScreen() }
-        composable(Route.HOME){HomeScreen(navController)}
-        composable(Route.PROFILE){HomeScreen(navController)}
+        composable(Route.HOME) { HomeScreen() }
     }
 }
 
 object Route {
     const val LOGIN = "login"
     const val REGISTER = "register"
-    const val GAME = "game"
-    const val LEADERBOARD = "leaderboard"
     const val HOME = "home"
-    const val PROFILE = "profile"
 }
