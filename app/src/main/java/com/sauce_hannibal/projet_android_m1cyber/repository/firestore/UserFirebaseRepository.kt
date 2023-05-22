@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
 
@@ -43,6 +44,25 @@ class UserFirebaseRepository @Inject constructor(private val firestore: Firebase
                 .update("dailyScore", score)
 
         }
+    }
+
+    suspend fun isPseudoAvailable(pseudo: String): Boolean {
+        val queryToCheckIfUsernameTaken = firestore.collection(_collection)
+            .whereEqualTo("pseudo", pseudo)
+            .limit(1)
+
+        val querySnapshot = queryToCheckIfUsernameTaken.get().await()
+        if (querySnapshot.documents.isNotEmpty()) {
+            return false
+        }
+        return true
+    }
+
+    fun updatePseudo(id: String, pseudo: String): Boolean {
+        return firestore.collection(_collection)
+            .document(id)
+            .update("pseudo", pseudo)
+            .isSuccessful
     }
 
     companion object {

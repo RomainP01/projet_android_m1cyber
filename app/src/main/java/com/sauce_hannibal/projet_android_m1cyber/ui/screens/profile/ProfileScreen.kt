@@ -1,5 +1,8 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -7,6 +10,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +27,13 @@ import coil.compose.rememberAsyncImagePainter
 fun ProfileScreen() {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val uiState = viewModel.profileUiState.collectAsState().value
+    val getContent =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { imageUri ->
+                viewModel.setNewUri(imageUri)
+            }
+        }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,8 +55,8 @@ fun ProfileScreen() {
                 )
             }
 
-            uiState.user?.profilePictureUrl?.let { imageUrl ->
-                val imagePainter = rememberAsyncImagePainter(model = imageUrl)
+            if (uiState.newUri != null) {
+                val imagePainter = rememberAsyncImagePainter(uiState.newUri)
                 Image(
                     painter = imagePainter,
                     contentDescription = null,
@@ -53,10 +65,22 @@ fun ProfileScreen() {
                         .fillMaxSize()
                         .clip(CircleShape)
                 )
+            } else {
+                uiState.user?.profilePictureUrl?.let { imageUrl ->
+                    val imagePainter = rememberAsyncImagePainter(model = imageUrl)
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                    )
+                }
             }
         }
         Button(onClick = {
-
+            getContent.launch("image/*")
         }) {
             Text("Change Image")
         }
@@ -68,14 +92,19 @@ fun ProfileScreen() {
         )
 
         TextField(
-            value = uiState.user?.pseudo ?: "",
-            onValueChange = { /* Handle pseudo change */ },
-            label = { Text("New Pseudo") },
+            value = uiState.newPseudo ?: "",
+            onValueChange = { viewModel.setNewPseudo(it) },
+            label = { Text("New pseudo") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Button(onClick = {}) {
-            Text("Save")
+        Button(onClick = {
+            viewModel.saveChanges(uiState.newUri, uiState.newPseudo)
+        }) {
+            Text("Save changes")
+        }
+        if (uiState.errorMessage != null) {
+            Text(uiState.errorMessage!!)
         }
 
 
