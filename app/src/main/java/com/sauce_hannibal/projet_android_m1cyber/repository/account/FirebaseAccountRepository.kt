@@ -2,7 +2,6 @@ package com.sauce_hannibal.projet_android_m1cyber.repository.account
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -50,6 +49,15 @@ class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAu
         }
     }
 
+    suspend fun resetPassword(email: String): Boolean {
+        return try {
+            auth.sendPasswordResetEmail(email).await()
+            true
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
     override suspend fun getUserLoggedIn(): FirebaseUser? {
         return try {
             auth.currentUser
@@ -57,4 +65,6 @@ class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAu
             throw e
         }
     }
+
 }
+

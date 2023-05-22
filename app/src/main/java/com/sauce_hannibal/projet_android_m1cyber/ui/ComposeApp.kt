@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.forget_password.ForgotScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
@@ -28,6 +29,7 @@ fun ComposeApp() {
                 navController
             )
         }
+        composable(Route.FORGOTPASSWORD) { ForgotScreen(navController) }
         composable(Route.HOME) { HomeScreen() }
     }
 }
@@ -36,4 +38,5 @@ object Route {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val HOME = "home"
+    const val FORGOTPASSWORD = "forgotpassword"
 }
