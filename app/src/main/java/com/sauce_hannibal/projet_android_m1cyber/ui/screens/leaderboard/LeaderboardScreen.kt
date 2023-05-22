@@ -1,21 +1,27 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun LeaderboardScreen() {
@@ -96,18 +102,33 @@ fun LeaderboardScreen() {
         )
         {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Canvas(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(bottom = 5.dp),
-                    onDraw = { drawCircle(color = Color.LightGray) }
-                )
+                if (filteredUsers.getOrNull(1)?.profilePictureUrl.toString() != null) {
+                    val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(1)?.profilePictureUrl.toString())
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                    )
+                } else {
+                    Canvas(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(bottom = 5.dp),
+                        onDraw = { drawCircle(color = Color.LightGray) }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
                 Box(
                     modifier = Modifier
                         .size(120.dp)
                         .background(Color.LightGray)
                         .border(width = 2.dp, color = Color.Black)
-                        .padding(top = 5.dp)
+                        .padding(top = 15.dp)
                 ) {
                     Text(
                         text = if (isAllTimeScore) {
@@ -117,7 +138,8 @@ fun LeaderboardScreen() {
                         },
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.Center),
+                        fontWeight = FontWeight.Bold
 
                     )
                     Text(
@@ -127,27 +149,39 @@ fun LeaderboardScreen() {
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
                     Text(
-                        text =
-                        filteredUsers.indexOf(filteredUsers.getOrNull(1)).plus(1).toString()
-                        + "nd",
+                        text = "#2nd",
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.BottomCenter)
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 5.dp)
                     )
-
-
                 }
             }
 
             Spacer(modifier = Modifier.width(5.dp))
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Canvas(
-                    modifier = Modifier
-                        .size(90.dp)
-                        .padding(bottom = 5.dp),
-                    onDraw = { drawCircle(color = Color.LightGray) }
-                )
+                if (filteredUsers.getOrNull(0)?.profilePictureUrl.toString() != null) {
+                    val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(0)?.profilePictureUrl.toString())
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(90.dp)
+                            .clip(CircleShape)
+                    )
+                } else {
+                    Canvas(
+                        modifier = Modifier
+                            .size(90.dp)
+                            .padding(bottom = 5.dp),
+                        onDraw = { drawCircle(color = Color.LightGray) }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Box(
                     modifier = Modifier
@@ -164,7 +198,8 @@ fun LeaderboardScreen() {
                         },
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.Center),
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = filteredUsers.getOrNull(0)?.pseudo.orEmpty().take(13) ?: "",
@@ -172,17 +207,41 @@ fun LeaderboardScreen() {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
+                    Text(
+                        text = "#1st",
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 5.dp)
+                    )
+
                 }
             }
             Spacer(modifier = Modifier.width(5.dp))
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Canvas(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .padding(bottom = 5.dp),
-                    onDraw = { drawCircle(color = Color.LightGray) }
-                )
+                if (filteredUsers.getOrNull(2)?.profilePictureUrl.toString() != null) {
+                    val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(2)?.profilePictureUrl.toString())
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(70.dp)
+                            .clip(CircleShape)
+                    )
+                } else {
+                    Canvas(
+                        modifier = Modifier
+                            .size(70.dp)
+                            .padding(bottom = 5.dp),
+                        onDraw = { drawCircle(color = Color.LightGray) }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
 
                 Box(
                     modifier = Modifier
@@ -201,7 +260,9 @@ fun LeaderboardScreen() {
                         },
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier
+                            .align(Alignment.Center),
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = filteredUsers.getOrNull(2)?.pseudo.orEmpty().take(9) ?: "",
@@ -209,6 +270,15 @@ fun LeaderboardScreen() {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
+                    Text(
+                        text = "#3rd",
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 5.dp)
+                    )
+
                 }
             }
 
@@ -221,29 +291,46 @@ fun LeaderboardScreen() {
                     .wrapContentSize(Alignment.Center)
             ) {
                 items(filteredUsers.size - 3) { index ->
-                    val user = filteredUsers[index + 3]
+                    val currentUser = filteredUsers[index + 3]
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 25.dp, horizontal = 15.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Canvas(
-                            modifier = Modifier
-                                .size(30.dp)
-                                .padding(bottom = 5.dp),
-                            onDraw = { drawCircle(color = Color.LightGray) }
-                        )
                         Text(
-                            text = user.pseudo ?: "",
-                            modifier = Modifier.padding(start = 8.dp),
+                            text = "#" + "${index + 4}" + "th",
+                            modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),
+                        )
+                        if (currentUser?.profilePictureUrl != null) {
+                            val imagePainter = rememberAsyncImagePainter(model = currentUser?.profilePictureUrl)
+                            Image(
+                                painter = imagePainter,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                            )
+                        } else {
+                            Canvas(
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(bottom = 5.dp),
+                                onDraw = { drawCircle(color = Color.LightGray) }
+                            )
+                        }
+
+                        Text(
+                            text = currentUser.pseudo ?: "",
+                            modifier = Modifier.padding(start = 15.dp) ,
                             color = Color.Black
                         )
                         Text(
                             text = if (isAllTimeScore) {
-                                user.allTimeScore?.toString() ?: ""
+                                currentUser.allTimeScore?.toString() ?: ""
                             } else {
-                                user.dailyScore?.toString() ?: ""
+                                currentUser.dailyScore?.toString() ?: ""
                             },
                             modifier = Modifier
                                 .padding(start = 8.dp, end = 16.dp)
@@ -255,7 +342,6 @@ fun LeaderboardScreen() {
                     }
                 }
             }
-
 
         }
 
