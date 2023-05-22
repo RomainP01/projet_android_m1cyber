@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -32,7 +33,6 @@ fun LeaderboardScreen() {
             .filter { it.dailyScore != null }
             .sortedByDescending { it.dailyScore }
     }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -126,6 +126,15 @@ fun LeaderboardScreen() {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
+                    Text(
+                        text =
+                        filteredUsers.indexOf(filteredUsers.getOrNull(1)).plus(1).toString()
+                        + "nd",
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    )
+
 
                 }
             }
@@ -205,41 +214,49 @@ fun LeaderboardScreen() {
 
         }
         if (filteredUsers.size > 3) {
-            filteredUsers.subList(3, filteredUsers.size).forEachIndexed { index, user ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 25.dp, horizontal = 15.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Canvas(
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp)
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                items(filteredUsers.size - 3) { index ->
+                    val user = filteredUsers[index + 3]
+                    Row(
                         modifier = Modifier
-                            .size(30.dp)
-                            .padding(bottom = 5.dp),
-                        onDraw = { drawCircle(color = Color.LightGray) }
-                    )
-
-                    Text(
-                        text = user.pseudo ?: "",
-                        modifier = Modifier.padding(start = 8.dp),
-                        color = Color.Black
-                    )
-
-                    Text(
-                        text = if (isAllTimeScore) {
-                            user.allTimeScore?.toString() ?: ""
-                        } else {
-                            user.dailyScore?.toString() ?: ""
-                        },
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 16.dp)
-                            .weight(1f)
-                            .wrapContentWidth(Alignment.End),
-                        color = Color.Black,
-                        textAlign = TextAlign.End
-                    )
+                            .fillMaxWidth()
+                            .padding(vertical = 25.dp, horizontal = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Canvas(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .padding(bottom = 5.dp),
+                            onDraw = { drawCircle(color = Color.LightGray) }
+                        )
+                        Text(
+                            text = user.pseudo ?: "",
+                            modifier = Modifier.padding(start = 8.dp),
+                            color = Color.Black
+                        )
+                        Text(
+                            text = if (isAllTimeScore) {
+                                user.allTimeScore?.toString() ?: ""
+                            } else {
+                                user.dailyScore?.toString() ?: ""
+                            },
+                            modifier = Modifier
+                                .padding(start = 8.dp, end = 16.dp)
+                                .weight(1f)
+                                .wrapContentWidth(Alignment.End),
+                            color = Color.Black,
+                            textAlign = TextAlign.End
+                        )
+                    }
                 }
             }
+
+
         }
 
     }
