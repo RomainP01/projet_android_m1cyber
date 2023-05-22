@@ -12,15 +12,8 @@ class FirebaseAccountRepository @Inject constructor(private val auth: FirebaseAu
     override val currentUser: UserFirebase
         get() = UserFirebase(auth.currentUser?.uid ?: "", "mamaaaa")
 
-    override fun login(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val user = auth.currentUser
-            } else {
-                println("signInWithEmail:failure")
-                println(task.exception)
-            }
-        }
+    override fun login(email: String, password: String):Boolean {
+        return auth.signInWithEmailAndPassword(email, password).isSuccessful
     }
 
     override fun logout() {

@@ -24,11 +24,18 @@ class LoginViewModel @Inject constructor(
     fun onPasswordChange(newValue: String) {
         _loginUiState.value = _loginUiState.value.copy(password = newValue)
     }
+    fun onPasswordVisibilityChange(newValue: Boolean){
+        _loginUiState.value = _loginUiState.value.copy(passwordVisibility = newValue)
+    }
 
     fun login(email: String, password: String) {
-        //TODO check if email is valid and password is not empty
-        accountRepository.login(email, password)
-        _loginUiState.value = _loginUiState.value.copy(isConnected = true)
+        val isLoggingSuccessful = accountRepository.login(email, password)
+       if ( isLoggingSuccessful){
+           _loginUiState.value = _loginUiState.value.copy(isConnected = true)
+       }else{
+           _loginUiState.value = _loginUiState.value.copy(errorMessage = "Email or password incorrect")
+       }
+
     }
 
 }
