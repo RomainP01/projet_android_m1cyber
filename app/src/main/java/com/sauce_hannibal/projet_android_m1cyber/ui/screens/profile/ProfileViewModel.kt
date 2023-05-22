@@ -90,5 +90,12 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun logout() {
+        viewModelScope.launch(Dispatchers.IO) {
+            accountRepository.logout()
+            _profileUiState.value = _profileUiState.value.copy(isConnected = false)
+        }
+    }
+
 
 }

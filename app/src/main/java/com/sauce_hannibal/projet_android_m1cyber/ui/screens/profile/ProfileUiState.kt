@@ -7,5 +7,6 @@ data class ProfileUiState(
     val user: UserFirebase? = null,
     var newUri: Uri? = null,
     var newPseudo: String? = null,
-    var errorMessage: String? = null
+    var errorMessage: String? = null,
+    var isConnected: Boolean = true
 )

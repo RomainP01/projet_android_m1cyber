@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -20,14 +21,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val uiState = viewModel.profileUiState.collectAsState().value
     val getContent =
@@ -50,6 +53,12 @@ fun ProfileScreen() {
         rememberAsyncImagePainter(model = uiState.newUri)
     }
 
+    LaunchedEffect(key1 = uiState, block = {
+        if (!uiState.isConnected) {
+            navController.navigate(Route.LOGIN)
+        }
+    })
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,6 +67,18 @@ fun ProfileScreen() {
     ) {
         val circleRadius = 250f
         val circleSize = with(LocalDensity.current) { circleRadius.toDp() * 2 }
+        Row(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Button(onClick = {
+                viewModel.logout()
+            }) {
+                Text("Logout")
+            }
+        }
         Box(
             modifier = Modifier
                 .size(circleSize)

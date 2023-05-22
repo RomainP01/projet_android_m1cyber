@@ -30,7 +30,7 @@ fun ComposeApp() {
             )
         }
         composable(Route.FORGOTPASSWORD) { ForgotScreen(navController) }
-        composable(Route.HOME) { HomeScreen() }
+        composable(Route.HOME) { HomeScreen(navController) }
     }
 }
 
