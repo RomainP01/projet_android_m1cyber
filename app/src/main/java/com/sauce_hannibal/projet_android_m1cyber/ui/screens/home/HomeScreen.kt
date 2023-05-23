@@ -3,6 +3,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home
 import android.annotation.SuppressLint
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -39,7 +40,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_account),
                             contentDescription = "home icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex == 4
                 )
                 NavigationBarItem(selected = currentIndex == 1,
                     onClick = {
@@ -51,7 +53,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_home),
                             contentDescription = "home icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex == 4
                 )
                 NavigationBarItem(selected = currentIndex == 2,
                     onClick = {
@@ -63,7 +66,8 @@ fun HomeScreen() {
                             painter = painterResource(id = R.drawable.ic_leaderboard),
                             contentDescription = "leaderboard icon"
                         )
-                    }
+                    },
+                    enabled = currentIndex == 4
                 )
             }
         }
@@ -73,7 +77,7 @@ fun HomeScreen() {
             startDestination = HomeRoute.HOME
         ) {
             composable(HomeRoute.HOME) {
-                LaunchGameComponent(navController, viewModel, homeUiState)
+                LaunchGameComponent(navController, viewModel, homeUiState, currentIndex)
             }
             composable(HomeRoute.PROFILE) {
                 ProfileScreen()
@@ -82,7 +86,7 @@ fun HomeScreen() {
                 LeaderboardScreen()
             }
             composable(HomeRoute.GAME) {
-                GameScreen()
+                GameScreen(navController)
             }
         }
     }
