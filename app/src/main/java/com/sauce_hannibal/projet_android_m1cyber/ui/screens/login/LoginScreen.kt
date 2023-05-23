@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -35,6 +36,8 @@ fun LoginScreen(navController: NavHostController) {
             navController.navigate(Route.HOME)
         }
     } )
+
+    var showErrorDialog by remember { mutableStateOf(false) }
 
 
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
@@ -105,7 +108,7 @@ fun LoginScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
-                    onClick = {},
+                    onClick = {viewModel.login(uiState.email, uiState.password)},
                     modifier = Modifier
                         .fillMaxWidth(8.8f)
                         .height(50.dp)
@@ -113,7 +116,7 @@ fun LoginScreen(navController: NavHostController) {
                     Text(
                         text = "Sign In",
                         fontSize = 20.sp,
-                        modifier = Modifier.clickable { viewModel.login(uiState.email, uiState.password) })
+                        )
                 }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Text(text = "Create an account",
@@ -127,9 +130,27 @@ fun LoginScreen(navController: NavHostController) {
                     })
                 Spacer(modifier = Modifier.padding(20.dp))
             }
-            if (uiState.errorMessage != null) {
-                Text(uiState.errorMessage!!)
+            if (uiState.errorMessage != null && showErrorDialog) {
+                AlertDialog(
+                    onDismissRequest = { showErrorDialog = false },
+                    title = { Text(text = "Erreur") },
+                    text = { Text(uiState.errorMessage!!) },
+                    confirmButton = {
+                        Button(
+                            onClick = { showErrorDialog = false },
+                            content = { Text("OK") }
+                        )
+                    }
+                )
             }
+            LaunchedEffect(key1 = uiState.errorMessage) {
+                if (uiState.errorMessage != null) {
+                    showErrorDialog = true
+                }
+            }
+
+
+
 
         }
 

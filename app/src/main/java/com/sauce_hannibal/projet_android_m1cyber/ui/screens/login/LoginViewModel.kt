@@ -32,6 +32,7 @@ class LoginViewModel @Inject constructor(
         _loginUiState.value = _loginUiState.value.copy(passwordVisibility = newValue)
     }
 
+
     fun login(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = accountRepository.login(email, password)
