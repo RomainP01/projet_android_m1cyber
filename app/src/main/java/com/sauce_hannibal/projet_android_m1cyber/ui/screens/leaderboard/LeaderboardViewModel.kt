@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LeaderboardViewModel @Inject constructor(
     private val userFirebaseRepository: UserFirebaseRepository
 ) : ViewModel() {
-    private val _leaderboardUiState = MutableStateFlow(LeaderboardUiState())
+    private val _leaderboardUiState = MutableStateFlow(LeaderboardUiState(isAllTimeScore = true))
     val leaderboardUiState: StateFlow<LeaderboardUiState>
         get() = _leaderboardUiState
 
