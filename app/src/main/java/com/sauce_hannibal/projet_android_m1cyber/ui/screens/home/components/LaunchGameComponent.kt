@@ -14,6 +14,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
 @Composable
 fun LaunchGameComponent(

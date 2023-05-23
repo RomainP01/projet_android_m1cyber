@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,69 +41,78 @@ fun ForgotScreen(navController: NavHostController) {
     }
 
 
-   Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
-       Box(modifier = modifier
-           .fillMaxSize()
-           .background(Color.White), contentAlignment = Alignment.TopCenter){
-           Image(
-               painter = painterResource(id = R.drawable.trivia_crack_logo),
-               contentDescription = null,
-               modifier = Modifier
-                   .size(200.dp).padding(bottom = 8.dp).offset(y = 55.dp)
-           )
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Purple100), contentAlignment = Alignment.TopCenter
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.trivia_crack_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(bottom = 8.dp)
+                    .offset(y = 55.dp)
+            )
 
-       }
-       Column(
-           horizontalAlignment = Alignment.CenterHorizontally,
-           verticalArrangement = Arrangement.Center,
-           modifier = modifier
-               .fillMaxWidth()
-               .fillMaxHeight(0.68f)
-               .clip(RoundedCornerShape(30.dp))
-               .background(Color.White)
-               .padding(10.dp)
-       ) {
-           LazyColumn(horizontalAlignment = Alignment.CenterHorizontally){
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.68f)
+                .clip(RoundedCornerShape(30.dp))
+                .background(Color.White)
+                .padding(10.dp)
+        ) {
+            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
 
 
-           }
-           Text(
-               text = "Forgot Password",
-               style = TextStyle(
-                   fontWeight = FontWeight.Bold,
-           ),
-               fontSize = 38.sp,
-           )
-           Spacer(modifier = Modifier.padding(20.dp))
-           Column(horizontalAlignment = Alignment.CenterHorizontally) {
-               OutlinedTextField(value = emailValue,
-                   onValueChange ={emailValue = it},
-                   label = { Text(text = "Email Address")},
-                   placeholder = { Text(text = "Email Address")},
-                   singleLine = true,
-                   modifier = Modifier.fillMaxWidth(8.8f)
-               )
+            }
+            Text(
+                text = "Forgot Password",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                ),
+                fontSize = 38.sp,
+            )
+            Spacer(modifier = Modifier.padding(20.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                OutlinedTextField(
+                    value = emailValue,
+                    onValueChange = { emailValue = it },
+                    label = { Text(text = "Email Address") },
+                    placeholder = { Text(text = "Email Address") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(8.8f)
+                )
 
-               Spacer(modifier = Modifier.padding(10.dp))
-               Button(onClick = {},
-               modifier = Modifier
-                   .fillMaxWidth(8.8f)
-                   .height(50.dp)
-                   ){
-                   Text(text = "Send", fontSize = 20.sp, modifier = Modifier.clickable { viewModel.forgotPassword(emailValue.trim()) })
-               }
-               Spacer(modifier = Modifier.padding(20.dp))
-               Text(text = "Login Instead",
-                   modifier = Modifier.clickable {
-                       navController.navigate(Route.LOGIN)
-                   })
-               Spacer(modifier = Modifier.padding(20.dp))
+                Spacer(modifier = Modifier.padding(10.dp))
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth(8.8f)
+                        .height(50.dp)
+                ) {
+                    Text(
+                        text = "Send",
+                        fontSize = 20.sp,
+                        modifier = Modifier.clickable { viewModel.forgotPassword(emailValue.trim()) })
+                }
+                Spacer(modifier = Modifier.padding(20.dp))
+                Text(text = "Login Instead",
+                    modifier = Modifier.clickable {
+                        navController.navigate(Route.LOGIN)
+                    })
+                Spacer(modifier = Modifier.padding(20.dp))
 
-           }
+            }
 
-       }
+        }
 
-   }
+    }
 }
 
 
