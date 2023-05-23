@@ -39,7 +39,8 @@ class GameViewModel @Inject constructor(
                 userScore = 0,
                 isAnswerCorrect = null,
                 answerSelected = null,
-                timer = 20
+                timer = 10,
+                multiplier = 1.0
             )
         }
     }
@@ -54,7 +55,8 @@ class GameViewModel @Inject constructor(
             userScore = 0,
             isAnswerCorrect = null,
             answerSelected = null,
-            timer = 0
+            timer = 0,
+            multiplier = 1.0
         )
     }
 
@@ -80,7 +82,7 @@ class GameViewModel @Inject constructor(
     }
 
 
-    private suspend fun changeToNextQuestion() {
+    suspend fun changeToNextQuestion() {
         val numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered + 1
         if (numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
             handleEndOfGame()
@@ -94,18 +96,53 @@ class GameViewModel @Inject constructor(
             possibleAnswers = possibleAnswers,
             numberOfQuestionsAnswered = numberOfQuestionsAnswered,
             isAnswerCorrect = null,
-            answerSelected = null
+            answerSelected = null,
+            timer = 10
         )
+    }
+
+    fun handleTimerEnd() {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                _gameUiState.value = _gameUiState.value.copy(
+                    isAnswerCorrect = false,
+                    answerSelected = ""
+                )
+                delay(1000)
+                changeToNextQuestion()
+            }
+        }
+    }
+
+    private fun calculateNewScore(score: Int, difficulty: String, multiplier: Double): Int {
+        val pointToAdd = if (difficulty == "easy") 10 else if (difficulty == "medium") 25 else 50
+        return (pointToAdd * multiplier + score).toInt()
+    }
+
+    private fun calculateMultiplier(multiplier: Double): Double {
+        if (multiplier < 5.0) {
+            return multiplier + 0.5
+        }
+        return multiplier
     }
 
     fun onAnswerClick(answer: String) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
+                val score =
+                    if (answer == gameUiState.value.currentQuestion?.correctAnswer) calculateNewScore(
+                        gameUiState.value.userScore,
+                        gameUiState.value.currentQuestion?.difficulty!!,
+                        gameUiState.value.multiplier
+                    ) else gameUiState.value.userScore
                 _gameUiState.value = _gameUiState.value.copy(
                     answerSelected = answer,
                     isAnswerCorrect = answer == gameUiState.value.currentQuestion?.correctAnswer,
-                    userScore = if (answer == gameUiState.value.currentQuestion?.correctAnswer) gameUiState.value.userScore + 1 else gameUiState.value.userScore,
-                    timer = 20
+                    userScore = score,
+                    timer = 10,
+                    multiplier = if (answer == gameUiState.value.currentQuestion?.correctAnswer) calculateMultiplier(
+                        gameUiState.value.multiplier
+                    ) else 1.0
                 )
                 delay(1000)
                 changeToNextQuestion()
@@ -126,6 +163,15 @@ class GameViewModel @Inject constructor(
             return Color.Green
         }
         return Color.Transparent
+    }
+
+    fun changeColorOfDifficulty(difficulty: String): Color {
+        return when (difficulty) {
+            "easy" -> Color.Green
+            "medium" -> Color.Yellow
+            "hard" -> Color.Red
+            else -> Color.Transparent
+        }
     }
 
 }
