@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import java.util.Calendar
 
 @Composable
 fun LeaderboardScreen() {
@@ -29,14 +30,22 @@ fun LeaderboardScreen() {
     val modifier = Modifier
     val uiState = viewModel.leaderboardUiState.collectAsState().value
     var isAllTimeScore by remember { mutableStateOf(uiState.isAllTimeScore) }
-
+    val today = Calendar.getInstance()
+    today.set(Calendar.HOUR_OF_DAY, 0)
+    today.set(Calendar.MINUTE, 0)
+    today.set(Calendar.SECOND, 0)
+    today.set(Calendar.MILLISECOND, 0)
+    val todayDateObject = today.time
     val filteredUsers = if (isAllTimeScore) {
         uiState.users
             .filter { it.allTimeScore != null }
             .sortedByDescending { it.allTimeScore }
     } else {
         uiState.users
-            .filter { it.dailyScore != null }
+            .filter {
+                    it.dailyScore != null
+                            && it.lastTimeDailyAnswered?.after(todayDateObject) ?: false
+            }
             .sortedByDescending { it.dailyScore }
     }
     Column(
