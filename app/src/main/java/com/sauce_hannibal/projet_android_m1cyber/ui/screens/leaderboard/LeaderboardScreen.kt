@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.components.LeaderboardUsersListItemComponent
 import java.util.Calendar
 
 @Composable
@@ -67,7 +68,7 @@ fun LeaderboardScreen() {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(top = 70.dp)
+                .padding(top = 30.dp)
                 .wrapContentSize(Alignment.Center),
         ) {
             Button(
@@ -118,13 +119,13 @@ fun LeaderboardScreen() {
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(75.dp)
                             .clip(CircleShape)
                     )
                 } else {
                     Canvas(
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(75.dp)
                             .padding(bottom = 5.dp),
                         onDraw = { drawCircle(color = Color.LightGray) }
                     )
@@ -296,59 +297,15 @@ fun LeaderboardScreen() {
             LazyColumn(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp)
+                    .padding(top = 15.dp, bottom = 45.dp)
                     .wrapContentSize(Alignment.Center)
             ) {
                 items(filteredUsers.size - 3) { index ->
                     val currentUser = filteredUsers[index + 3]
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 25.dp, horizontal = 15.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "#" + "${index + 4}" + "th",
-                            modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),
-                        )
-                        if (currentUser?.profilePictureUrl != null) {
-                            val imagePainter = rememberAsyncImagePainter(model = currentUser?.profilePictureUrl)
-                            Image(
-                                painter = imagePainter,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                            )
-                        } else {
-                            Canvas(
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(bottom = 5.dp),
-                                onDraw = { drawCircle(color = Color.LightGray) }
-                            )
-                        }
-
-                        Text(
-                            text = currentUser.pseudo ?: "",
-                            modifier = Modifier.padding(start = 15.dp) ,
-                            color = Color.Black
-                        )
-                        Text(
-                            text = if (isAllTimeScore) {
-                                currentUser.allTimeScore?.toString() ?: ""
-                            } else {
-                                currentUser.dailyScore?.toString() ?: ""
-                            },
-                            modifier = Modifier
-                                .padding(start = 8.dp, end = 16.dp)
-                                .weight(1f)
-                                .wrapContentWidth(Alignment.End),
-                            color = Color.Black,
-                            textAlign = TextAlign.End
-                        )
-                    }
+                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
+                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
+                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
+                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
                 }
             }
 
