@@ -21,8 +21,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
 fun LaunchGameComponent(
     navController: NavHostController,
     viewModel: HomeViewModel,
-    homeUiState: HomeUiState,
-    currentIndex: Int
+    homeUiState: HomeUiState
 ) {
 
     Column() {
@@ -33,7 +32,6 @@ fun LaunchGameComponent(
                 .background(viewModel.buttonBackgroundColor(homeUiState.isDailyChallengeDone)),
             onClick = {
                 navController.navigate(HomeRoute.GAME)
-                currentIndex == 4
             },
             enabled = !homeUiState.isDailyChallengeDone
         ) {
