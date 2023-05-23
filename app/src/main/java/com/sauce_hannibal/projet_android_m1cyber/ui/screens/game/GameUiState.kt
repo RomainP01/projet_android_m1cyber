@@ -9,8 +9,9 @@ data class GameUiState(
     val userScore: Int = 0,
     var numberOfQuestionsAnswered: Int = 0,
     val numberOfQuestions: Int = 0,
-    val answerSelected : String? = null,
+    val answerSelected: String? = null,
     val isAnswerCorrect: Boolean? = null,
     var isEnded: Boolean = false,
-    val timer: Int = 20
+    val timer: Int = 10,
+    val multiplier: Double = 1.0,
 )
