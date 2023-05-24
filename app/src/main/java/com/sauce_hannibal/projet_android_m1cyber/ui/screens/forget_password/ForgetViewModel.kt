@@ -17,15 +17,14 @@ class ForgetViewModel @Inject constructor(
     private val firebaseAccountRepository: FirebaseAccountRepository
 ) : ViewModel() {
     private val _resetPasswordFlow = MutableStateFlow<Boolean?>(null)
-    val resetPasswordFlow : StateFlow<Boolean?> = _resetPasswordFlow
-
-
+    val resetPasswordFlow: StateFlow<Boolean?> = _resetPasswordFlow
 
 
     fun forgotPassword(email: String) {
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             _resetPasswordFlow.value = firebaseAccountRepository.resetPassword(email)
         }
     }
+
 
 }

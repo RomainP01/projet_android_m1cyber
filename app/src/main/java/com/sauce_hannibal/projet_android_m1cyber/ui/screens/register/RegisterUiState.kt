@@ -1,8 +1,12 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.register
 
 data class RegisterUiState(
-    val email: String = "",
-    val password: String = "",
-    val confirmationPassword: String = "",
-    var isConnected:Boolean = false
+    var email: String = "",
+    var password: String = "",
+    var confirmationPassword: String = "",
+    var isAccountCreated:Boolean = false,
+    var passwordVisibility: Boolean = false,
+    var ConfirmationPasswordVisibility: Boolean = false,
+    var errorMessage: String? = null,
+    var pseudo : String = ""
 )

@@ -6,10 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,19 +30,25 @@ fun ForgotScreen(navController: NavHostController) {
     val modifier = Modifier
     val uiState = viewModel.resetPasswordFlow.collectAsState().value
     if (uiState == true) {
-        navController.navigate(Route.HOME)
+        navController.navigate(Route.LOGIN)
     }
+
+
+
 
     var emailValue by remember {
         mutableStateOf("")
     }
+    var showDialog by remember { mutableStateOf(false) }
+
+
 
 
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Purple100), contentAlignment = Alignment.TopCenter
+
         ) {
             Image(
                 painter = painterResource(id = R.drawable.trivia_crack_logo),
@@ -91,7 +94,10 @@ fun ForgotScreen(navController: NavHostController) {
 
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
-                    onClick = {},
+                    onClick = {
+                        viewModel.forgotPassword(emailValue.trim())
+                        showDialog = true
+                    },
                     modifier = Modifier
                         .fillMaxWidth(8.8f)
                         .height(50.dp)
@@ -99,20 +105,48 @@ fun ForgotScreen(navController: NavHostController) {
                     Text(
                         text = "Send",
                         fontSize = 20.sp,
-                        modifier = Modifier.clickable { viewModel.forgotPassword(emailValue.trim()) })
+                        modifier = Modifier.clickable { }
+                    )
                 }
+
                 Spacer(modifier = Modifier.padding(20.dp))
                 Text(text = "Login Instead",
                     modifier = Modifier.clickable {
                         navController.navigate(Route.LOGIN)
                     })
                 Spacer(modifier = Modifier.padding(20.dp))
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            showDialog = false // Fermer la boîte de dialogue lorsque l'utilisateur la ferme
+                        },
+                        title = {
+                            Text(text = "Mail envoyé")
+                        },
+                        text = {
+                            Text(text = "Le mail a été envoyé avec succès.")
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    showDialog = false // Fermer la boîte de dialogue lorsque l'utilisateur clique sur le bouton OK
+                                }
+                            ) {
+                                Text(text = "OK")
+                            }
+                        }
+                    )
+                }
+
+            }
+
+
 
             }
 
         }
 
     }
-}
+
 
 

@@ -34,6 +34,8 @@ class RegisterViewModel @Inject constructor(
 
     private val confirmationPassword
         get() = registerUiState.value.confirmationPassword
+    private val pseudo
+        get() = registerUiState.value.pseudo
 
     fun onEmailChange(newValue: String) {
         _registerUiState.value = registerUiState.value.copy(email = newValue)
@@ -43,9 +45,21 @@ class RegisterViewModel @Inject constructor(
         _registerUiState.value = registerUiState.value.copy(password = newValue)
     }
 
-    fun onConformationPasswordChange(newValue: String) {
+    fun onConfirmationPasswordChange(newValue: String) {
         _registerUiState.value = registerUiState.value.copy(confirmationPassword = newValue)
     }
+    fun onPasswordVisibilityChange(newValue: Boolean) {
+        _registerUiState.value = _registerUiState.value.copy(passwordVisibility = newValue)
+    }
+    fun onPasswordVisibilityConfirmationChange(newValue: Boolean) {
+        _registerUiState.value = _registerUiState.value.copy(ConfirmationPasswordVisibility  = newValue)
+    }
+
+    fun onPseudoChange(newValue:String){
+        _registerUiState.value = _registerUiState.value.copy(pseudo=newValue)
+    }
+
+
 
     fun register() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -63,15 +77,14 @@ class RegisterViewModel @Inject constructor(
                     uid,
                     successCallback = { downloadUrl ->
                         val user = UserFirebase(
-                            uid = uid, pseudo = "Romain", profilePictureUrl = downloadUrl
+                            uid = uid, pseudo =pseudo, profilePictureUrl = downloadUrl
                         )
-                        _registerUiState.value.isConnected =
-                            userFirebaseRepository.insertUser(uid, user)
+                        userFirebaseRepository.insertUser(uid, user)
                     },
                     errorCallback = { exception ->
                         throw exception
                     })
-
+                _registerUiState.value = _registerUiState.value.copy(isAccountCreated = true)
 
             }
         }
