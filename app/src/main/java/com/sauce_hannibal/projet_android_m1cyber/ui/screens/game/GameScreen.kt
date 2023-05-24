@@ -24,8 +24,8 @@ import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueDisabled
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import kotlinx.coroutines.delay
 
 @Composable
@@ -175,12 +175,14 @@ fun GameScreen(
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
-                        .background(color = viewModel.changeColorOfButton(gameUiState.possibleAnswers[index])),
+                        .background(
+                            color = viewModel.changeColorOfButton(gameUiState.possibleAnswers[index]),
+                        ),
                     enabled = gameUiState.answerSelected == null,
                     border = BorderStroke(2.dp, Color.White),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Blue100,
-                        disabledContainerColor = Purple200,
+                        disabledContainerColor = BlueDisabled,
                         disabledContentColor = Color.White
                     )
 

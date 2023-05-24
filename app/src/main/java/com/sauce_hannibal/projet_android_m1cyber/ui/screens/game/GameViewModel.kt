@@ -9,6 +9,7 @@ import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQu
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Red100
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -156,22 +157,22 @@ class GameViewModel @Inject constructor(
     fun changeColorOfButton(answer: String): Color {
         if (answer == gameUiState.value.answerSelected) {
             return if (gameUiState.value.currentQuestion?.correctAnswer == answer) {
-                Color.Green
+                Green100
             } else {
-                Color.Red
+                Red100
             }
         }
         if (gameUiState.value.currentQuestion?.correctAnswer == answer && gameUiState.value.answerSelected != null) {
-            return Color.Green
+            return Green100
         }
         return Color.Transparent
     }
 
     fun changeColorOfDifficulty(difficulty: String): Color {
         return when (difficulty) {
-            "easy" -> Color.Green
+            "easy" -> Green100
             "medium" -> Color.Yellow
-            "hard" -> Color.Red
+            "hard" -> Red100
             else -> Color.Transparent
         }
     }
@@ -184,7 +185,7 @@ class GameViewModel @Inject constructor(
         return when (multiplier) {
             in 1.0..2.0 -> Color.Yellow
             in 2.0..3.5 -> Color(red = 255, green = 136, blue = 0)
-            in 3.5..5.0 -> Color.Red
+            in 3.5..5.0 -> Red100
             else -> {
                 Color.Yellow
             }
@@ -195,7 +196,7 @@ class GameViewModel @Inject constructor(
         return when {
             timer > 0.55 -> Green100
             timer > 0.20 -> Color(red = 255, green = 136, blue = 0)
-            else -> Color.Red
+            else -> Red100
         }
     }
 
