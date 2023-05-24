@@ -14,4 +14,5 @@ data class GameUiState(
     var isEnded: Boolean = false,
     val timer: Int = 10,
     val multiplier: Double = 1.0,
+    var isOpenPopUp: Boolean = false
 )

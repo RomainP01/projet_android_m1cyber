@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import kotlinx.coroutines.delay
 
@@ -69,13 +70,16 @@ fun GameScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        PopUpComponent(gameUiState.isOpenPopUp, navController, viewModel)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {navController.navigate(HomeRoute.HOME)}) {
+            IconButton(onClick = {
+                viewModel.setIsOpenPopUp(!gameUiState.isOpenPopUp)
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
                     contentDescription = "arrow icon",

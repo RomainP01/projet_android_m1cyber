@@ -68,7 +68,7 @@ class GameViewModel @Inject constructor(
         return possibleAnswers.shuffled()
     }
 
-    private suspend fun handleEndOfGame() {
+    fun handleEndOfGame() {
         val today = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -172,6 +172,10 @@ class GameViewModel @Inject constructor(
             "hard" -> Color.Red
             else -> Color.Transparent
         }
+    }
+
+    fun setIsOpenPopUp (isOpenPopUp : Boolean) {
+        _gameUiState.value = _gameUiState.value.copy(isOpenPopUp = isOpenPopUp)
     }
 
 }
