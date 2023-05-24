@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,69 +44,76 @@ fun HomeScreen() {
         selectedIconColor = Green100,
         unselectedIconColor = Color.White,
     )
+
+    var isBottomBarHidden by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         bottomBar = {
-            NavigationBar(
-                containerColor = Purple100,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-                    )
-                    .border(
-                        width = 2.dp,
-                        color = Color.White,
-                        shape = RoundedCornerShape(
-                            topStart = 20.dp,
-                            topEnd = 20.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
+            if (!isBottomBarHidden) {
+                NavigationBar(
+                    containerColor = Purple100,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(
+                            RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                         )
-                    ),
+                        .border(
+                            width = 2.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(
+                                topStart = 20.dp,
+                                topEnd = 20.dp,
+                                bottomStart = 0.dp,
+                                bottomEnd = 0.dp
+                            )
+                        ),
 
-            ) {
-                NavigationBarItem(
-                    selected = currentIndex == 0,
-                    onClick = {
-                        currentIndex = 0
-                        navController.navigate(HomeRoute.PROFILE)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_account),
-                            contentDescription = "home icon",
-                        )
-                    },
-                    colors = navColors
-                )
-                NavigationBarItem(
-                    selected = currentIndex == 1,
-                    onClick = {
-                        currentIndex = 1
-                        navController.navigate(HomeRoute.HOME)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home),
-                            contentDescription = "home icon",
-                        )
-                    },
-                    colors = navColors
-                )
-                NavigationBarItem(
-                    selected = currentIndex == 2,
-                    onClick = {
-                        currentIndex = 2
-                        navController.navigate(HomeRoute.LEADERBOARD)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_leaderboard),
-                            contentDescription = "leaderboard icon",
-                        )
-                    },
-                    colors = navColors
-                )
+                    ) {
+                    NavigationBarItem(
+                        selected = currentIndex == 0,
+                        onClick = {
+                            currentIndex = 0
+                            navController.navigate(HomeRoute.PROFILE)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_account),
+                                contentDescription = "home icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                    NavigationBarItem(
+                        selected = currentIndex == 1,
+                        onClick = {
+                            currentIndex = 1
+                            navController.navigate(HomeRoute.HOME)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home),
+                                contentDescription = "home icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                    NavigationBarItem(
+                        selected = currentIndex == 2,
+                        onClick = {
+                            currentIndex = 2
+                            navController.navigate(HomeRoute.LEADERBOARD)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_leaderboard),
+                                contentDescription = "leaderboard icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                }
             }
         }
     ) {
@@ -146,8 +154,10 @@ fun HomeScreen() {
                         .fillMaxSize()
                         .background(PurplePinkBackground)
                 ) {
-                    GameScreen()
+                    GameScreen(navController)
                 }
+                isBottomBarHidden = true
+                GameScreen(navController)
             }
         }
     }
