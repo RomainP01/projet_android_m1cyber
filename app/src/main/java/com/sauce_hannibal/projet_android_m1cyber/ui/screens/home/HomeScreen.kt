@@ -3,6 +3,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home
 import android.annotation.SuppressLint
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -25,46 +26,51 @@ fun HomeScreen() {
     var currentIndex by remember {
         mutableStateOf(1)
     }
+    var isBottomBarHidden by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(selected = currentIndex == 0,
-                    onClick = {
-                        currentIndex = 0
-                        navController.navigate(HomeRoute.PROFILE)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_account),
-                            contentDescription = "home icon"
-                        )
-                    }
-                )
-                NavigationBarItem(selected = currentIndex == 1,
-                    onClick = {
-                        currentIndex = 1
-                        navController.navigate(HomeRoute.HOME)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home),
-                            contentDescription = "home icon"
-                        )
-                    }
-                )
-                NavigationBarItem(selected = currentIndex == 2,
-                    onClick = {
-                        currentIndex = 2
-                        navController.navigate(HomeRoute.LEADERBOARD)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_leaderboard),
-                            contentDescription = "leaderboard icon"
-                        )
-                    }
-                )
+            if(!isBottomBarHidden) {
+                NavigationBar {
+                    NavigationBarItem(selected = currentIndex == 0,
+                        onClick = {
+                            currentIndex = 0
+                            navController.navigate(HomeRoute.PROFILE)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_account),
+                                contentDescription = "home icon"
+                            )
+                        }
+                    )
+                    NavigationBarItem(selected = currentIndex == 1,
+                        onClick = {
+                            currentIndex = 1
+                            navController.navigate(HomeRoute.HOME)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home),
+                                contentDescription = "home icon"
+                            )
+                        }
+                    )
+                    NavigationBarItem(selected = currentIndex == 2,
+                        onClick = {
+                            currentIndex = 2
+                            navController.navigate(HomeRoute.LEADERBOARD)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_leaderboard),
+                                contentDescription = "leaderboard icon"
+                            )
+                        }
+                    )
+                }
             }
         }
     ) {
@@ -73,6 +79,7 @@ fun HomeScreen() {
             startDestination = HomeRoute.HOME
         ) {
             composable(HomeRoute.HOME) {
+                isBottomBarHidden = false
                 LaunchGameComponent(navController, viewModel, homeUiState)
             }
             composable(HomeRoute.PROFILE) {
@@ -82,7 +89,8 @@ fun HomeScreen() {
                 LeaderboardScreen()
             }
             composable(HomeRoute.GAME) {
-                GameScreen()
+                isBottomBarHidden = true
+                GameScreen(navController)
             }
         }
     }

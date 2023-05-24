@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
@@ -19,8 +22,9 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
 fun LaunchGameComponent(
     navController: NavHostController,
     viewModel: HomeViewModel,
-    homeUiState: HomeUiState,
-) {
+    homeUiState: HomeUiState
+)
+{
     Column() {
         Button(
             modifier = Modifier
