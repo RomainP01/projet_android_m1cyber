@@ -1,20 +1,19 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
 @Composable
 fun LaunchGameComponent(
@@ -22,19 +21,49 @@ fun LaunchGameComponent(
     viewModel: HomeViewModel,
     homeUiState: HomeUiState,
 ) {
-    Column() {
-        Button(
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
-                .background(viewModel.buttonBackgroundColor(homeUiState.isDailyChallengeDone)),
-            onClick = {
-                navController.navigate(HomeRoute.GAME)
-            },
-            enabled = !homeUiState.isDailyChallengeDone
+                .padding(start = 16.dp, end = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Daily Ranked  ")
-            Text("10 questions")
+            Text(
+                text = "Trivia Challenge",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                color = Color.White,
+                fontSize = 50.sp
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 16.dp, end = 16.dp)
+                .align(Alignment.Center)
+                .padding(top = 100.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    navController.navigate(HomeRoute.GAME)
+                },
+                enabled = !homeUiState.isDailyChallengeDone
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Daily Ranked")
+                    Text(text = "10 questions")
+                }
+            }
         }
     }
+
+
 }

@@ -24,6 +24,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.LaunchGameComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
@@ -38,6 +39,10 @@ fun HomeScreen() {
     var currentIndex by remember {
         mutableStateOf(1)
     }
+    val navColors = NavigationBarItemDefaults.colors(
+        selectedIconColor = Green100,
+        unselectedIconColor = Color.White,
+    )
     Scaffold(
         bottomBar = {
             NavigationBar(
@@ -57,8 +62,10 @@ fun HomeScreen() {
                             bottomEnd = 0.dp
                         )
                     ),
+
             ) {
-                NavigationBarItem(selected = currentIndex == 0,
+                NavigationBarItem(
+                    selected = currentIndex == 0,
                     onClick = {
                         currentIndex = 0
                         navController.navigate(HomeRoute.PROFILE)
@@ -67,11 +74,12 @@ fun HomeScreen() {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_account),
                             contentDescription = "home icon",
-                            tint = Color.White
                         )
-                    }
+                    },
+                    colors = navColors
                 )
-                NavigationBarItem(selected = currentIndex == 1,
+                NavigationBarItem(
+                    selected = currentIndex == 1,
                     onClick = {
                         currentIndex = 1
                         navController.navigate(HomeRoute.HOME)
@@ -80,11 +88,12 @@ fun HomeScreen() {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_home),
                             contentDescription = "home icon",
-                            tint = Color.White
                         )
-                    }
+                    },
+                    colors = navColors
                 )
-                NavigationBarItem(selected = currentIndex == 2,
+                NavigationBarItem(
+                    selected = currentIndex == 2,
                     onClick = {
                         currentIndex = 2
                         navController.navigate(HomeRoute.LEADERBOARD)
@@ -93,9 +102,9 @@ fun HomeScreen() {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_leaderboard),
                             contentDescription = "leaderboard icon",
-                            tint = Color.White
                         )
-                    }
+                    },
+                    colors = navColors
                 )
             }
         }
