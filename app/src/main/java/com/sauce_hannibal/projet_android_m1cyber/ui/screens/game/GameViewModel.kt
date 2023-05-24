@@ -7,6 +7,7 @@ import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQuestionsRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -174,8 +175,27 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun setIsOpenPopUp (isOpenPopUp : Boolean) {
+    fun setIsOpenPopUp(isOpenPopUp: Boolean) {
         _gameUiState.value = _gameUiState.value.copy(isOpenPopUp = isOpenPopUp)
+    }
+
+    fun changeColorOfMultiplier(multiplier: Double): Color {
+        return when (multiplier) {
+            in 1.0..2.0 -> Color.Yellow
+            in 2.0..3.5 -> Color(red = 255, green = 136, blue = 0)
+            in 3.5..5.0 -> Color.Red
+            else -> {
+                Color.Yellow
+            }
+        }
+    }
+
+    fun changeColorOfTimer(timer: Float): Color {
+        return when (timer) {
+            in 0.0..2.0 -> Color.Red
+            in 3.0..4.0 -> Color(red = 255, green = 136, blue = 0)
+            else -> Color.Green
+        }
     }
 
 }
