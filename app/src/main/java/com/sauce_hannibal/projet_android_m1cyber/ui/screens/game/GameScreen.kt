@@ -2,6 +2,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.game
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,8 @@ import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,7 +42,7 @@ fun GameScreen(
 
     LaunchedEffect(key1 = gameUiState.isEnded, block = {
         while (!gameUiState.isEnded) {
-            if (timeLeft == 0) {
+            if (timeLeft == 0 && gameUiState.answerSelected == null) {
                 delay(1000)
                 viewModel.handleTimerEnd()
                 timeLeft = gameUiState.timer
@@ -173,9 +176,28 @@ fun GameScreen(
                         .padding(16.dp)
                         .fillMaxWidth()
                         .background(color = viewModel.changeColorOfButton(gameUiState.possibleAnswers[index])),
-                    enabled = gameUiState.answerSelected == null
+                    enabled = gameUiState.answerSelected == null,
+                    border = BorderStroke(2.dp, Color.White),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Blue100,
+                        disabledContainerColor = Purple200,
+                        disabledContentColor = Color.White
+                    )
+
                 ) {
-                    Text(text = gameUiState.possibleAnswers[index])
+                    Text(
+                        text = gameUiState.possibleAnswers[index],
+                        fontSize = 20.sp,
+                        color = Green100,
+                        style = TextStyle(
+                            shadow = Shadow(
+                                color = Green100,
+                                offset = Offset(1f, 1f),
+                                blurRadius = 1f
+                            )
+                        )
+
+                    )
                 }
             }
         }
