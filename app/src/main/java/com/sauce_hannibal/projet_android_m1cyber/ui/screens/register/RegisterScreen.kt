@@ -50,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +67,8 @@ fun RegisterScreen(navController: NavHostController) {
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmpasswordVisibility by remember { mutableStateOf(false) }
 
-    val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$".toRegex()
+    val passwordRegex =
+        "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$".toRegex()
     val errorMessage = remember { mutableStateOf("") }
     fun validatePassword(password: String) {
         errorMessage.value = when {
@@ -81,142 +83,151 @@ fun RegisterScreen(navController: NavHostController) {
 
 
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White), contentAlignment = Alignment.TopCenter){
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Purple100), contentAlignment = Alignment.TopCenter
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.register_logo),
                 contentDescription = null,
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(bottom = 8.dp).offset(y = 38.dp)
-            )        }
+                    .padding(bottom = 8.dp)
+                    .offset(y = 38.dp)
+            )
+        }
 
-        Column(modifier = Modifier
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.68f)
                 .clip(RoundedCornerShape(30.dp))
                 .background(Color.White)
-                .padding(10.dp).verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Sign Up",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
+                .padding(10.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Sign Up",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                ),
+                fontSize = 38.sp,
+            )
+
+            Spacer(modifier = Modifier.padding(20.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                OutlinedTextField(
+                    value = nameValue.value,
+                    onValueChange = { nameValue.value = it },
+                    label = { Text(text = "Pseudo") },
+                    placeholder = { Text(text = "Pseudo") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(8.8f)
+                )
+                Spacer(modifier = Modifier.padding(5.dp))
+                OutlinedTextField(
+                    value = emailValue.value,
+                    onValueChange = { emailValue.value = it },
+                    label = { Text(text = "Email Address") },
+                    placeholder = { Text(text = "Email Address") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(8.8f)
+                )
+                Spacer(modifier = Modifier.padding(5.dp))
+
+                OutlinedTextField(
+                    value = passwordValue.value,
+                    onValueChange = {
+                        passwordValue.value = it
+                        validatePassword(it)
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.password_eye),
+                                contentDescription = null,
+                                tint = if (passwordVisibility) Color.Black else Color.Gray
+                            )
+                        }
+                    },
+                    label = { Text(text = "Password") },
+                    placeholder = { Text(text = "Password") },
+                    singleLine = true,
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    isError = errorMessage.value.isNotEmpty(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
+                        unfocusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
                     ),
-                    fontSize = 38.sp,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+
+                        }
+                    )
                 )
 
-                Spacer(modifier = Modifier.padding(20.dp))
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    OutlinedTextField(
-                        value = nameValue.value,
-                        onValueChange = { nameValue.value = it },
-                        label = { Text(text = "Pseudo") },
-                        placeholder = { Text(text = "Pseudo") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(8.8f)
+                if (errorMessage.value.isNotEmpty()) {
+                    Text(
+                        text = errorMessage.value,
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 8.dp, top = 4.dp)
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
-                    OutlinedTextField(
-                        value = emailValue.value,
-                        onValueChange = { emailValue.value = it },
-                        label = { Text(text = "Email Address") },
-                        placeholder = { Text(text = "Email Address") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(8.8f)
-                    )
-                    Spacer(modifier = Modifier.padding(5.dp))
-
-                    OutlinedTextField(
-                        value = passwordValue.value,
-                        onValueChange = {
-                            passwordValue.value = it
-                            validatePassword(it)
-                        },
-                        trailingIcon = {
-                            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.password_eye),
-                                    contentDescription = null,
-                                    tint = if (passwordVisibility) Color.Black else Color.Gray
-                                )
-                            }
-                        },
-                        label = { Text(text = "Password") },
-                        placeholder = { Text(text = "Password") },
-                        singleLine = true,
-                        visualTransformation = if (passwordVisibility) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                        modifier = Modifier.fillMaxWidth(8.8f),
-                        isError = errorMessage.value.isNotEmpty(),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
-                            unfocusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-
-                            }
-                        )
-                    )
-
-                    if (errorMessage.value.isNotEmpty()) {
-                        Text(
-                            text = errorMessage.value,
-                            color = Color.Red,
-                            modifier = Modifier.padding(start = 8.dp, top = 4.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.padding(5.dp))
-
-                    OutlinedTextField(
-                        value = confirmPasswordValue.value,
-                        onValueChange = { confirmPasswordValue.value = it },
-                        trailingIcon = {
-                            IconButton(onClick = { confirmpasswordVisibility = !confirmpasswordVisibility }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.password_eye),
-                                    contentDescription = null,
-                                    tint = if (confirmpasswordVisibility) Color.Black else Color.Gray
-                                )
-                            }
-                        },
-                        label = { Text(text = "Confirm Password") },
-                        placeholder = { Text(text = "Confirm Password") },
-                        singleLine = true,
-                        visualTransformation = if (confirmpasswordVisibility) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                        modifier = Modifier.fillMaxWidth(8.8f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-
-                            }
-                        )
-                    )
-
-
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Button(onClick = {},
-                        modifier = Modifier
-                            .fillMaxWidth(8.8f)
-                            .height(50.dp)
-                    ){
-                        Text(text = "Sign Up", fontSize = 20.sp)
-                    }
-                    Spacer(modifier = Modifier.padding(20.dp))
-                    Text(text = "Login Instead",
-                        modifier = Modifier.clickable {
-                            navController.navigate(Route.LOGIN)
-                        })
-                    Spacer(modifier = Modifier.padding(20.dp))
                 }
+                Spacer(modifier = Modifier.padding(5.dp))
 
+                OutlinedTextField(
+                    value = confirmPasswordValue.value,
+                    onValueChange = { confirmPasswordValue.value = it },
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            confirmpasswordVisibility = !confirmpasswordVisibility
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.password_eye),
+                                contentDescription = null,
+                                tint = if (confirmpasswordVisibility) Color.Black else Color.Gray
+                            )
+                        }
+                    },
+                    label = { Text(text = "Confirm Password") },
+                    placeholder = { Text(text = "Confirm Password") },
+                    singleLine = true,
+                    visualTransformation = if (confirmpasswordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+
+                        }
+                    )
+                )
+
+
+                Spacer(modifier = Modifier.padding(10.dp))
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth(8.8f)
+                        .height(50.dp)
+                ) {
+                    Text(text = "Sign Up", fontSize = 20.sp)
+                }
+                Spacer(modifier = Modifier.padding(20.dp))
+                Text(text = "Login Instead",
+                    modifier = Modifier.clickable {
+                        navController.navigate(Route.LOGIN)
+                    })
+                Spacer(modifier = Modifier.padding(20.dp))
             }
+
+        }
     }
 }
