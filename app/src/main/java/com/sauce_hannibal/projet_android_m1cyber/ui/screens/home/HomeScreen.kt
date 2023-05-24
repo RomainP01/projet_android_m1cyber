@@ -1,9 +1,21 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +25,9 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.LaunchGameComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -25,46 +40,80 @@ fun HomeScreen() {
     var currentIndex by remember {
         mutableStateOf(1)
     }
+    val navColors = NavigationBarItemDefaults.colors(
+        selectedIconColor = Green100,
+        unselectedIconColor = Color.White,
+    )
+
+    var isBottomBarHidden by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(selected = currentIndex == 0,
-                    onClick = {
-                        currentIndex = 0
-                        navController.navigate(HomeRoute.PROFILE)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_account),
-                            contentDescription = "home icon"
+            if (!isBottomBarHidden) {
+                NavigationBar(
+                    containerColor = Purple100,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(
+                            RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                         )
-                    }
-                )
-                NavigationBarItem(selected = currentIndex == 1,
-                    onClick = {
-                        currentIndex = 1
-                        navController.navigate(HomeRoute.HOME)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home),
-                            contentDescription = "home icon"
-                        )
-                    }
-                )
-                NavigationBarItem(selected = currentIndex == 2,
-                    onClick = {
-                        currentIndex = 2
-                        navController.navigate(HomeRoute.LEADERBOARD)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_leaderboard),
-                            contentDescription = "leaderboard icon"
-                        )
-                    }
-                )
+                        .border(
+                            width = 2.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(
+                                topStart = 20.dp,
+                                topEnd = 20.dp,
+                                bottomStart = 0.dp,
+                                bottomEnd = 0.dp
+                            )
+                        ),
+
+                    ) {
+                    NavigationBarItem(
+                        selected = currentIndex == 0,
+                        onClick = {
+                            currentIndex = 0
+                            navController.navigate(HomeRoute.PROFILE)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_account),
+                                contentDescription = "home icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                    NavigationBarItem(
+                        selected = currentIndex == 1,
+                        onClick = {
+                            currentIndex = 1
+                            navController.navigate(HomeRoute.HOME)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home),
+                                contentDescription = "home icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                    NavigationBarItem(
+                        selected = currentIndex == 2,
+                        onClick = {
+                            currentIndex = 2
+                            navController.navigate(HomeRoute.LEADERBOARD)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_leaderboard),
+                                contentDescription = "leaderboard icon",
+                            )
+                        },
+                        colors = navColors
+                    )
+                }
             }
         }
     ) {
@@ -73,16 +122,42 @@ fun HomeScreen() {
             startDestination = HomeRoute.HOME
         ) {
             composable(HomeRoute.HOME) {
-                LaunchGameComponent(navController, viewModel, homeUiState)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PurplePinkBackground)
+                ) {
+                    LaunchGameComponent(navController, viewModel, homeUiState)
+                }
             }
             composable(HomeRoute.PROFILE) {
-                ProfileScreen()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PurplePinkBackground)
+                ) {
+                    ProfileScreen()
+                }
             }
             composable(HomeRoute.LEADERBOARD) {
-                LeaderboardScreen()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PurplePinkBackground)
+                ) {
+                    LeaderboardScreen()
+                }
             }
             composable(HomeRoute.GAME) {
-                GameScreen()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PurplePinkBackground)
+                ) {
+                    GameScreen(navController)
+                }
+                isBottomBarHidden = true
+                GameScreen(navController)
             }
         }
     }
