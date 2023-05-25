@@ -18,8 +18,8 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
 @Composable
 fun LaunchGameComponent(
     navController: NavHostController,
-    viewModel: HomeViewModel,
     homeUiState: HomeUiState,
+    changeCurrentIndex: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -51,6 +51,7 @@ fun LaunchGameComponent(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
+                    changeCurrentIndex()
                     navController.navigate(HomeRoute.GAME)
                 },
                 enabled = !homeUiState.isDailyChallengeDone

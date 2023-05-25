@@ -19,7 +19,7 @@ fun PopUpComponent(isOpenPopUp: Boolean, navController: NavController, viewModel
             },
             confirmButton = {
                 TextButton(onClick = {
-                    viewModel.setIsOpenPopUp(!isOpenPopUp)
+                    viewModel.setIsOpenPopUp(false)
                 }) {
                     Text(text = "Cancel")
                 }
@@ -27,7 +27,6 @@ fun PopUpComponent(isOpenPopUp: Boolean, navController: NavController, viewModel
             dismissButton = {
                 TextButton(onClick = {
                     viewModel.handleEndOfGame()
-                    navController.popBackStack()
                 }) {
                     Text(text = "Confirm")
                 }

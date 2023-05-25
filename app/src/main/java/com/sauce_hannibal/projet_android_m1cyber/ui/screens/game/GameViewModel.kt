@@ -80,8 +80,8 @@ class GameViewModel @Inject constructor(
         gameUiState.value.user?.uid?.let {
             userFirebaseRepository.updateScores(it, gameUiState.value.userScore)
             userFirebaseRepository.updateLastTimeDailyAnswered(it, today)
+            _gameUiState.value = _gameUiState.value.copy(isEnded = true)
         }
-        _gameUiState.value = _gameUiState.value.copy(isEnded = true)
     }
 
 

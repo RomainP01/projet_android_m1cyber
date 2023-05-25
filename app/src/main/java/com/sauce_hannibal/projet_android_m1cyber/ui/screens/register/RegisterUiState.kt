@@ -4,9 +4,9 @@ data class RegisterUiState(
     var email: String = "",
     var password: String = "",
     var confirmationPassword: String = "",
-    var isAccountCreated:Boolean = false,
+    var isAccountCreated: Boolean = false,
     var passwordVisibility: Boolean = false,
     var ConfirmationPasswordVisibility: Boolean = false,
-    var errorMessage: String? = null,
-    var pseudo : String = ""
+    var pseudoErrorMessage: String? = null,
+    var pseudo: String = ""
 )

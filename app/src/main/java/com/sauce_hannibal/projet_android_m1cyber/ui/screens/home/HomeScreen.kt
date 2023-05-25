@@ -7,13 +7,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,9 +29,9 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun HomeScreen(navControllerMain:NavController) {
+fun HomeScreen(navControllerMain: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val homeUiState = viewModel.homeUiState.collectAsState().value
     val navController = rememberNavController()
@@ -46,13 +43,9 @@ fun HomeScreen(navControllerMain:NavController) {
         unselectedIconColor = Color.White,
     )
 
-    var isBottomBarHidden by rememberSaveable {
-        mutableStateOf(false)
-    }
-
     Scaffold(
         bottomBar = {
-            if (!isBottomBarHidden) {
+            if (currentIndex != 4) {
                 NavigationBar(
                     containerColor = Purple100,
                     modifier = Modifier
@@ -84,7 +77,10 @@ fun HomeScreen(navControllerMain:NavController) {
                                 contentDescription = "home icon",
                             )
                         },
-                        colors = navColors
+                        colors = navColors,
+                        label = {
+                            Text(text = "Profile", color = Color.White)
+                        }
                     )
                     NavigationBarItem(
                         selected = currentIndex == 1,
@@ -98,7 +94,10 @@ fun HomeScreen(navControllerMain:NavController) {
                                 contentDescription = "home icon",
                             )
                         },
-                        colors = navColors
+                        colors = navColors,
+                        label = {
+                            Text(text = "Home", color = Color.White)
+                        }
                     )
                     NavigationBarItem(
                         selected = currentIndex == 2,
@@ -112,7 +111,10 @@ fun HomeScreen(navControllerMain:NavController) {
                                 contentDescription = "leaderboard icon",
                             )
                         },
-                        colors = navColors
+                        colors = navColors,
+                        label = {
+                            Text(text = "Leaderboard", color = Color.White)
+                        },
                     )
                 }
             }
@@ -128,7 +130,9 @@ fun HomeScreen(navControllerMain:NavController) {
                         .fillMaxSize()
                         .background(PurplePinkBackground)
                 ) {
-                    LaunchGameComponent(navController, viewModel, homeUiState)
+                    LaunchGameComponent(navController, homeUiState) {
+                        currentIndex = 4
+                    }
                 }
             }
             composable(HomeRoute.PROFILE) {
@@ -155,10 +159,13 @@ fun HomeScreen(navControllerMain:NavController) {
                         .fillMaxSize()
                         .background(PurplePinkBackground)
                 ) {
-                    GameScreen(navController)
+                    GameScreen(navController) {
+                        currentIndex = 1
+                    }
                 }
-                isBottomBarHidden = true
-                GameScreen(navController)
+                GameScreen(navController) {
+                    currentIndex = 1
+                }
             }
         }
     }

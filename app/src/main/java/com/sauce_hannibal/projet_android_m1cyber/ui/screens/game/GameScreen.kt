@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueDisabled
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
@@ -30,7 +31,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    changeCurrentIndex: () -> Unit,
 ) {
     val viewModel = hiltViewModel<GameViewModel>()
     val gameUiState = viewModel.gameUiState.collectAsState().value
@@ -55,6 +57,14 @@ fun GameScreen(
             }
         }
     })
+
+    LaunchedEffect(key1 = gameUiState.isEnded, block = {
+        if (gameUiState.isEnded) {
+            changeCurrentIndex()
+            navController.navigate(HomeRoute.HOME)
+        }
+    })
+
     val progress by animateFloatAsState(
         targetValue = if (gameUiState.answerSelected != null) {
             1f
@@ -89,7 +99,7 @@ fun GameScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                viewModel.setIsOpenPopUp(!gameUiState.isOpenPopUp)
+                viewModel.setIsOpenPopUp(true)
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
