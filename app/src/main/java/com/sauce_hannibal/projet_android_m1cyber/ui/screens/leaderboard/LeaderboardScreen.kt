@@ -10,12 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.components.LeaderboardUsersListItemComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.components.PodiumComponent
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.GreyDisabled
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import java.util.Calendar
 
 @Composable
@@ -56,16 +63,21 @@ fun LeaderboardScreen() {
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
     ) {
-        // Titre de la page
         Text(
             text = "Leaderboard",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 30.dp)
-                .wrapContentSize(Alignment.Center)
-
+                .wrapContentSize(Alignment.Center),
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium.copy(
+                shadow = Shadow(
+                    color = Pink100,
+                    offset = Offset(1f, 1f),
+                    blurRadius = 1f
+                )
+            )
         )
-        // Row contenant deux boutons changeant le mode d'affichage
         Row(
             Modifier
                 .fillMaxWidth()
@@ -74,15 +86,15 @@ fun LeaderboardScreen() {
         ) {
             Button(
                 onClick = { isAllTimeScore = true },
-                // define button color
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isAllTimeScore) Color.DarkGray else Color.LightGray,
+                    containerColor = if (isAllTimeScore) Purple100 else Purple200,
                 ),
                 border = BorderStroke(2.dp, Color.Black)
             ) {
                 Text(
-                    text = "All time",
-                    color = if (isAllTimeScore) Color.LightGray else Color.DarkGray
+                    text = "ALL TIME",
+                    color = if (isAllTimeScore) Color.White else GreyDisabled,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
 
@@ -91,19 +103,19 @@ fun LeaderboardScreen() {
             Button(
                 onClick = { isAllTimeScore = false },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (!isAllTimeScore) Color.DarkGray else Color.LightGray,
+                    containerColor = if (!isAllTimeScore) Purple100 else Purple200,
                 ),
                 border = BorderStroke(2.dp, Color.Black)
 
             ) {
                 Text(
-                    text = "Daily",
-                    color = if (!isAllTimeScore) Color.LightGray else Color.DarkGray
+                    text = "DAILY",
+                    color = if (!isAllTimeScore) Color.White else GreyDisabled,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
 
         }
-        // Row contenant le podium
         Row(
             Modifier
                 .fillMaxWidth()
@@ -118,11 +130,12 @@ fun LeaderboardScreen() {
             LazyColumn(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 15.dp, bottom = 45.dp)
+                    .padding(top = 15.dp, bottom = 90.dp)
                     .wrapContentSize(Alignment.Center)
             ) {
                 items(filteredUsers.size - 3) { index ->
                     val currentUser = filteredUsers[index + 3]
+                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
                     LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
                     LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
                     LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)

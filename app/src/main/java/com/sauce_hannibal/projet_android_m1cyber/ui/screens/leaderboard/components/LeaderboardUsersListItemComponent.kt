@@ -2,12 +2,15 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.compone
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueBorderUserList
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.WhiteBackgroundUserList
 
 @Composable
 fun LeaderboardUsersListItemComponent(
@@ -29,12 +35,16 @@ fun LeaderboardUsersListItemComponent(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 15.dp, start = 15.dp, end = 15.dp),
+            .padding(vertical = 2.dp, horizontal = 25.dp)
+            .background(WhiteBackgroundUserList, RoundedCornerShape(10.dp))
+            .border(2.dp, BlueBorderUserList, RoundedCornerShape(10.dp))
+            .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "#" + "${index + 4}" + "th",
             modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),
+            color = Color.White,
         )
         if (currentUser?.profilePictureUrl != null) {
             val imagePainter = rememberAsyncImagePainter(model = currentUser?.profilePictureUrl)
@@ -58,7 +68,7 @@ fun LeaderboardUsersListItemComponent(
         Text(
             text = currentUser.pseudo ?: "",
             modifier = Modifier.padding(start = 15.dp) ,
-            color = Color.Black
+            color = Color.White
         )
         Text(
             text = if (isAllTimeScore) {
@@ -70,7 +80,7 @@ fun LeaderboardUsersListItemComponent(
                 .padding(start = 8.dp, end = 16.dp)
                 .weight(1f)
                 .wrapContentWidth(Alignment.End),
-            color = Color.Black,
+            color = Color.White,
             textAlign = TextAlign.End
         )
     }
