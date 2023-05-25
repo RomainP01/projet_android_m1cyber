@@ -139,7 +139,7 @@ fun HomeScreen(navControllerMain: NavController) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(GreenBlueLightPurpleBackground)
+                            .background(LightPurpleDeepPurpleBackground)
                     ) {
                         ProfileScreen(navControllerMain)
                     }

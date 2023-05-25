@@ -88,7 +88,7 @@ fun ProfileScreen(navController: NavController) {
                     viewModel.logout()
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = LightBlue100,
+                    containerColor = Purple200,
                 ),
                 border = BorderStroke(2.dp, Color.Black),
                 modifier = Modifier
@@ -127,7 +127,7 @@ fun ProfileScreen(navController: NavController) {
                 getContent.launch("image/*")
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Green100,
+                containerColor = Purple100,
             ),
             border = BorderStroke(2.dp, Color.Black),
 
@@ -163,7 +163,7 @@ fun ProfileScreen(navController: NavController) {
                 viewModel.saveChanges(uiState.newUri, uiState.newPseudo)
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Green100,
+                containerColor = Purple100,
             ),
             border = BorderStroke(2.dp, Color.Black),
         ) {
@@ -172,7 +172,7 @@ fun ProfileScreen(navController: NavController) {
             )
         }
         if (uiState.errorMessage != null) {
-            Text(uiState.errorMessage!!)
+            Text(uiState.errorMessage!!, color = Color.White)
         }
     }
 }
