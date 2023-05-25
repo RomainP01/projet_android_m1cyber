@@ -1,39 +1,12 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.register
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,44 +23,39 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
 fun RegisterScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<RegisterViewModel>()
-    val modifier = Modifier
     val uiState = viewModel.registerUiState.collectAsState().value
 
-    val nameValue = remember { mutableStateOf("") }
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
-    val confirmPasswordValue = remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-    var confirmpasswordVisibility by remember { mutableStateOf(false) }
 
     val passwordRegex =
         "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$".toRegex()
     val errorMessage = remember { mutableStateOf("") }
     fun validatePassword(password: String) {
         errorMessage.value = when {
-            password.length < 8 -> "Le mot de passe doit contenir au moins 8 caractères."
+            password.length < 8 -> "The password must be at least 8 characters long."
             !passwordRegex.matches(password) ->
-                "Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre, " +
-                        "un caractère spécial (@#\$%^&+=) et aucun espace."
+                "The password must contain at least one lowercase letter, one uppercase letter, one number and one special character (@#\$%^&+=)."
 
             else -> ""
         }
     }
 
-
+    LaunchedEffect(key1 = uiState, block = {
+        if (uiState.isAccountCreated) {
+            navController.navigate(Route.LOGIN)
+        }
+    })
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Purple100), contentAlignment = Alignment.TopCenter
+                .background(Color.White), contentAlignment = Alignment.TopCenter
         ) {
             Image(
                 painter = painterResource(id = R.drawable.register_logo),
@@ -121,17 +89,21 @@ fun RegisterScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.padding(20.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 OutlinedTextField(
-                    value = nameValue.value,
-                    onValueChange = { nameValue.value = it },
+                    value = uiState.pseudo,
+                    onValueChange = {
+                        viewModel.onPseudoChange(it)
+                        viewModel.setPseudoErrorMessage("")
+                    },
                     label = { Text(text = "Pseudo") },
                     placeholder = { Text(text = "Pseudo") },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth(8.8f)
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    isError = uiState.pseudoErrorMessage != "",
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = emailValue.value,
-                    onValueChange = { emailValue.value = it },
+                    value = uiState.email,
+                    onValueChange = { viewModel.onEmailChange(it) },
                     label = { Text(text = "Email Address") },
                     placeholder = { Text(text = "Email Address") },
                     singleLine = true,
@@ -140,24 +112,24 @@ fun RegisterScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.padding(5.dp))
 
                 OutlinedTextField(
-                    value = passwordValue.value,
+                    value = uiState.password,
                     onValueChange = {
-                        passwordValue.value = it
+                        viewModel.onPasswordChange(it)
                         validatePassword(it)
                     },
                     trailingIcon = {
-                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                        IconButton(onClick = { viewModel.onPasswordVisibilityChange(!uiState.passwordVisibility) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.password_eye),
                                 contentDescription = null,
-                                tint = if (passwordVisibility) Color.Black else Color.Gray
+                                tint = if (uiState.passwordVisibility) Color.Black else Color.Gray
                             )
                         }
                     },
                     label = { Text(text = "Password") },
                     placeholder = { Text(text = "Password") },
                     singleLine = true,
-                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    visualTransformation = if (uiState.passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(8.8f),
                     isError = errorMessage.value.isNotEmpty(),
@@ -183,23 +155,21 @@ fun RegisterScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.padding(5.dp))
 
                 OutlinedTextField(
-                    value = confirmPasswordValue.value,
-                    onValueChange = { confirmPasswordValue.value = it },
+                    value = uiState.confirmationPassword,
+                    onValueChange = { viewModel.onConfirmationPasswordChange(it) },
                     trailingIcon = {
-                        IconButton(onClick = {
-                            confirmpasswordVisibility = !confirmpasswordVisibility
-                        }) {
+                        IconButton(onClick = { viewModel.onPasswordVisibilityConfirmationChange(!uiState.ConfirmationPasswordVisibility) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.password_eye),
                                 contentDescription = null,
-                                tint = if (confirmpasswordVisibility) Color.Black else Color.Gray
+                                tint = if (uiState.ConfirmationPasswordVisibility) Color.Black else Color.Gray
                             )
                         }
                     },
                     label = { Text(text = "Confirm Password") },
                     placeholder = { Text(text = "Confirm Password") },
                     singleLine = true,
-                    visualTransformation = if (confirmpasswordVisibility) VisualTransformation.None
+                    visualTransformation = if (uiState.ConfirmationPasswordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(8.8f),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -211,15 +181,18 @@ fun RegisterScreen(navController: NavHostController) {
                 )
 
 
+
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
-                    onClick = {},
+                    onClick = { viewModel.register() },
                     modifier = Modifier
                         .fillMaxWidth(8.8f)
                         .height(50.dp)
                 ) {
                     Text(text = "Sign Up", fontSize = 20.sp)
+
                 }
+                uiState.pseudoErrorMessage?.let { Text(text = it) }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Text(text = "Login Instead",
                     modifier = Modifier.clickable {
@@ -231,3 +204,4 @@ fun RegisterScreen(navController: NavHostController) {
         }
     }
 }
+

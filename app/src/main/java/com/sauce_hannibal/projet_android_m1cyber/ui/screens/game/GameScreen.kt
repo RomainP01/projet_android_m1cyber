@@ -2,6 +2,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.game
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -22,12 +23,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.components.PopUpComponent
+import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueDisabled
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
 import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    changeCurrentIndex: () -> Unit,
 ) {
     val viewModel = hiltViewModel<GameViewModel>()
     val gameUiState = viewModel.gameUiState.collectAsState().value
@@ -37,9 +42,12 @@ fun GameScreen(
         timeLeft = gameUiState.timer
     })
 
-    LaunchedEffect(key1 = gameUiState.isEnded, block = {
+    LaunchedEffect(key1 = gameUiState.isStarted, block = {
+        while (!gameUiState.isStarted) {
+            delay(1000)
+        }
         while (!gameUiState.isEnded) {
-            if (timeLeft == 0) {
+            if (timeLeft == 0 && gameUiState.answerSelected == null) {
                 delay(1000)
                 viewModel.handleTimerEnd()
                 timeLeft = gameUiState.timer
@@ -49,6 +57,14 @@ fun GameScreen(
             }
         }
     })
+
+    LaunchedEffect(key1 = gameUiState.isEnded, block = {
+        if (gameUiState.isEnded) {
+            changeCurrentIndex()
+            navController.navigate(HomeRoute.HOME)
+        }
+    })
+
     val progress by animateFloatAsState(
         targetValue = if (gameUiState.answerSelected != null) {
             1f
@@ -83,7 +99,7 @@ fun GameScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                viewModel.setIsOpenPopUp(!gameUiState.isOpenPopUp)
+                viewModel.setIsOpenPopUp(true)
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
@@ -172,10 +188,31 @@ fun GameScreen(
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
-                        .background(color = viewModel.changeColorOfButton(gameUiState.possibleAnswers[index])),
-                    enabled = gameUiState.answerSelected == null
+                        .background(
+                            color = viewModel.changeColorOfButton(gameUiState.possibleAnswers[index]),
+                        ),
+                    enabled = gameUiState.answerSelected == null,
+                    border = BorderStroke(2.dp, Color.White),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Blue100,
+                        disabledContainerColor = BlueDisabled,
+                        disabledContentColor = Color.White
+                    )
+
                 ) {
-                    Text(text = gameUiState.possibleAnswers[index])
+                    Text(
+                        text = gameUiState.possibleAnswers[index],
+                        fontSize = 20.sp,
+                        color = Green100,
+                        style = TextStyle(
+                            shadow = Shadow(
+                                color = Green100,
+                                offset = Offset(1f, 1f),
+                                blurRadius = 1f
+                            )
+                        )
+
+                    )
                 }
             }
         }

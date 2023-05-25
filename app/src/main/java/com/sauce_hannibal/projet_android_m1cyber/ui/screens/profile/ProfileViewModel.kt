@@ -60,11 +60,12 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun saveChanges(uri: Uri?, pseudo: String?) {
-        if (uri != null) {
-            updateProfilePicture(uri)
-        }
-        if (pseudo != null) {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (uri != null) {
+                updateProfilePicture(uri)
+            }
+            if (pseudo != null) {
+
                 val isAvailable = userFirebaseRepository.isPseudoAvailable(
                     pseudo
                 )
@@ -80,6 +81,19 @@ class ProfileViewModel @Inject constructor(
                         _profileUiState.value.copy(errorMessage = "Pseudo already taken")
                 }
             }
+            val user = accountRepository.getUserLoggedIn()
+            if (user != null) {
+                userFirebaseRepository.getUser(user.uid).collectLatest { userFirebase ->
+                    _profileUiState.value = _profileUiState.value.copy(user = userFirebase)
+                }
+            }
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch(Dispatchers.IO) {
+            accountRepository.logout()
+            _profileUiState.value = _profileUiState.value.copy(isConnected = false)
         }
     }
 

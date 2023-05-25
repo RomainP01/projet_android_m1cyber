@@ -23,7 +23,7 @@ fun ComposeApp() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.HOME
+        startDestination = Route.LOGIN
     ) {
         composable(Route.LOGIN) {
             LoginScreen(
@@ -47,7 +47,7 @@ fun ComposeApp() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(PurplePinkBackground)
-            ) { HomeScreen() }
+            ) {HomeScreen(navController)  }
         }
     }
 }
