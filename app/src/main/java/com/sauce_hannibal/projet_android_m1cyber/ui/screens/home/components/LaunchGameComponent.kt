@@ -1,19 +1,36 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
+import com.sauce_hannibal.projet_android_m1cyber.R
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 
 @Composable
 fun LaunchGameComponent(
@@ -27,16 +44,24 @@ fun LaunchGameComponent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Trivia Challenge",
+                text = "TRIVIA CHALLENGE",
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 100.dp),
                 color = Color.White,
-                fontSize = 50.sp
+                style = MaterialTheme.typography.titleLarge.copy(
+                    shadow = Shadow(
+                        color = Purple100,
+                        offset = Offset(1f, 1f),
+                        blurRadius = 5f
+                    )
+                ),
+                textAlign = TextAlign.Center
             )
         }
         Column(
@@ -49,19 +74,42 @@ fun LaunchGameComponent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .width(250.dp)
+                    .border(
+                        width = 2.5.dp,
+                        color = Purple100,
+                        shape = RoundedCornerShape(50.dp)
+                    ),
                 onClick = {
                     changeCurrentIndex()
                     navController.navigate(HomeRoute.GAME)
                 },
                 enabled = !homeUiState.isDailyChallengeDone
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = "Daily Ranked")
-                    Text(text = "10 questions")
+                    Icon(
+                        modifier = Modifier
+                            .size(40.dp),
+                        painter = painterResource(id = R.drawable.baseline_play_arrow_24),
+                        contentDescription = "launch icon",
+                        tint = Green100,
+
+                    )
+                    Text(
+                        text = "DAILY RANKED \n 10 QUESTIONS",
+                        modifier = Modifier.weight(1f),
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Purple100
+                    )
                 }
+
             }
         }
     }
