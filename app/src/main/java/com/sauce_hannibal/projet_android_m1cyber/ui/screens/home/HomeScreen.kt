@@ -30,6 +30,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.Laun
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.LightPurpleDeepPurpleBackground
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
@@ -130,29 +131,46 @@ fun HomeScreen(navControllerMain: NavController) {
             }
         },
         content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(PurplePinkBackground)
+
+            NavHost(
+                navController = navController,
+                startDestination = HomeRoute.HOME
             ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = HomeRoute.HOME
-                ) {
-                    composable(HomeRoute.HOME) {
+                composable(HomeRoute.HOME) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(PurplePinkBackground)
+                    ) {
                         LaunchGameComponent(navController, homeUiState) {
                             currentIndex = 4
                         }
                     }
-                    composable(HomeRoute.PROFILE) {
-
+                }
+                composable(HomeRoute.PROFILE) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(PurplePinkBackground)
+                    ) {
                         ProfileScreen(navControllerMain)
-
                     }
-                    composable(HomeRoute.LEADERBOARD) {
+                }
+                composable(HomeRoute.LEADERBOARD) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(LightPurpleDeepPurpleBackground)
+                    ) {
                         LeaderboardScreen()
                     }
-                    composable(HomeRoute.GAME) {
+                }
+                composable(HomeRoute.GAME) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(PurplePinkBackground)
+                    ) {
                         GameScreen(navController) {
                             currentIndex = 1
                         }
