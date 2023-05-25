@@ -12,9 +12,7 @@ import com.sauce_hannibal.projet_android_m1cyber.R
 val TacoCrispy = FontFamily(
     Font(R.font.taco_crispy)
 )
-val Aubergine = FontFamily(
-    Font(R.font.aubergine)
-)
+
 val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = FontFamily.Default,
@@ -25,7 +23,17 @@ val Typography = Typography(
         fontFamily = TacoCrispy,
         fontWeight = FontWeight.Normal,
         fontSize = 50.sp,
-    )
+    ),
+    titleMedium = TextStyle(
+        fontFamily = TacoCrispy,
+        fontWeight = FontWeight.Normal,
+        fontSize = 40.sp,
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = TacoCrispy,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
 )
 
 

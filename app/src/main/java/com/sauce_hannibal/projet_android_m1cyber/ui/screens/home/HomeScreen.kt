@@ -11,19 +11,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.LaunchGameComponent
@@ -52,8 +46,7 @@ fun HomeScreen(navControllerMain: NavController) {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsWithImePadding(),
+            .fillMaxSize(),
         bottomBar = {
             if (currentIndex != 4) {
                 NavigationBar(
@@ -73,8 +66,6 @@ fun HomeScreen(navControllerMain: NavController) {
                                 bottomEnd = 0.dp
                             )
                         ),
-
-
                     ) {
                     NavigationBarItem(
                         selected = currentIndex == 0,
