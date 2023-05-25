@@ -29,10 +29,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components.LaunchGameComponent
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.LeaderboardScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.LightPurpleDeepPurpleBackground
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.*
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -151,7 +148,7 @@ fun HomeScreen(navControllerMain: NavController) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(PurplePinkBackground)
+                            .background(GreenBlueLightPurpleBackground)
                     ) {
                         ProfileScreen(navControllerMain)
                     }
