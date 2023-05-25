@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,15 +57,9 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 
 fun RegisterScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<RegisterViewModel>()
-    val modifier = Modifier
     val uiState = viewModel.registerUiState.collectAsState().value
 
-    val nameValue = remember { mutableStateOf("") }
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
-    val confirmPasswordValue = remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-    var confirmpasswordVisibility by remember { mutableStateOf(false) }
+
 
     val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$".toRegex()
     val errorMessage = remember { mutableStateOf("") }
@@ -78,6 +73,12 @@ fun RegisterScreen(navController: NavHostController) {
             else -> ""
         }
     }
+
+    LaunchedEffect(key1 = uiState, block ={
+        if (uiState.isAccountCreated) {
+            navController.navigate(Route.LOGIN)
+        }
+    } )
 
 
 
@@ -113,8 +114,8 @@ fun RegisterScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.padding(20.dp))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     OutlinedTextField(
-                        value = nameValue.value,
-                        onValueChange = { nameValue.value = it },
+                        value = uiState.pseudo,
+                        onValueChange = { viewModel.onPseudoChange(it) },
                         label = { Text(text = "Pseudo") },
                         placeholder = { Text(text = "Pseudo") },
                         singleLine = true,
@@ -122,8 +123,8 @@ fun RegisterScreen(navController: NavHostController) {
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
                     OutlinedTextField(
-                        value = emailValue.value,
-                        onValueChange = { emailValue.value = it },
+                        value = uiState.email,
+                        onValueChange = { viewModel.onEmailChange(it) },
                         label = { Text(text = "Email Address") },
                         placeholder = { Text(text = "Email Address") },
                         singleLine = true,
@@ -132,24 +133,24 @@ fun RegisterScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.padding(5.dp))
 
                     OutlinedTextField(
-                        value = passwordValue.value,
+                        value = uiState.password,
                         onValueChange = {
-                            passwordValue.value = it
+                            viewModel.onPasswordChange(it)
                             validatePassword(it)
                         },
                         trailingIcon = {
-                            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                            IconButton(onClick = { viewModel.onPasswordVisibilityChange(!uiState.passwordVisibility) }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.password_eye),
                                     contentDescription = null,
-                                    tint = if (passwordVisibility) Color.Black else Color.Gray
+                                    tint = if (uiState.passwordVisibility) Color.Black else Color.Gray
                                 )
                             }
                         },
                         label = { Text(text = "Password") },
                         placeholder = { Text(text = "Password") },
                         singleLine = true,
-                        visualTransformation = if (passwordVisibility) VisualTransformation.None
+                        visualTransformation = if (uiState.passwordVisibility) VisualTransformation.None
                         else PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(8.8f),
                         isError = errorMessage.value.isNotEmpty(),
@@ -175,21 +176,21 @@ fun RegisterScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.padding(5.dp))
 
                     OutlinedTextField(
-                        value = confirmPasswordValue.value,
-                        onValueChange = { confirmPasswordValue.value = it },
+                        value = uiState.confirmationPassword,
+                        onValueChange = { viewModel.onConfirmationPasswordChange(it) },
                         trailingIcon = {
-                            IconButton(onClick = { confirmpasswordVisibility = !confirmpasswordVisibility }) {
+                            IconButton(onClick = { viewModel.onPasswordVisibilityConfirmationChange(!uiState.ConfirmationPasswordVisibility)}) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.password_eye),
                                     contentDescription = null,
-                                    tint = if (confirmpasswordVisibility) Color.Black else Color.Gray
+                                    tint = if (uiState.ConfirmationPasswordVisibility) Color.Black else Color.Gray
                                 )
                             }
                         },
                         label = { Text(text = "Confirm Password") },
                         placeholder = { Text(text = "Confirm Password") },
                         singleLine = true,
-                        visualTransformation = if (confirmpasswordVisibility) VisualTransformation.None
+                        visualTransformation = if (uiState.ConfirmationPasswordVisibility) VisualTransformation.None
                         else PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(8.8f),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -201,8 +202,9 @@ fun RegisterScreen(navController: NavHostController) {
                     )
 
 
+
                     Spacer(modifier = Modifier.padding(10.dp))
-                    Button(onClick = {},
+                    Button(onClick = {viewModel.register()},
                         modifier = Modifier
                             .fillMaxWidth(8.8f)
                             .height(50.dp)
@@ -220,3 +222,4 @@ fun RegisterScreen(navController: NavHostController) {
             }
     }
 }
+

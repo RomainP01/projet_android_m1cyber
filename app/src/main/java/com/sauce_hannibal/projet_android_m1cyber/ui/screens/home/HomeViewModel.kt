@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
+import com.sauce_hannibal.projet_android_m1cyber.repository.storage.FirebaseStorageRepository
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,7 +66,7 @@ class HomeViewModel @Inject constructor(
         if (isDailyChallengeDone) {
             return Color.Gray
         }
-        return Purple200
+        return Color.White
     }
 
 
