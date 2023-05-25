@@ -5,15 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
+import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.api.TrivialPursuitQuestionsRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Red100
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import java.util.*
 import javax.inject.Inject
 
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository,
-    private val userFirebaseRepository: UserFirebaseRepository
+    private val userFirebaseRepository: UserFirebaseRepository,
+    private val accountRepository: AccountRepository
 ) : ViewModel() {
     private val _gameUiState = MutableStateFlow(GameUiState())
     val gameUiState: StateFlow<GameUiState>
@@ -30,37 +32,30 @@ class GameViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val questions = runBlocking { trivialPursuitQuestionsRepository.getQuestions() }
-            val currentQuestion = questions[0]
-            val possibleAnswers = createPossibleAnswers(currentQuestion)
-            _gameUiState.value = _gameUiState.value.copy(
-                questions = questions,
-                currentQuestion = currentQuestion,
-                possibleAnswers = possibleAnswers,
-                numberOfQuestions = questions.size,
-                numberOfQuestionsAnswered = 0,
-                userScore = 0,
-                isAnswerCorrect = null,
-                answerSelected = null,
-                timer = 10,
-                multiplier = 1.0
-            )
-        }
-    }
+            val user = accountRepository.getUserLoggedIn()
+            if (user != null) {
+                userFirebaseRepository.getUser(user.uid).collectLatest { userFirebase ->
+                    _gameUiState.value = _gameUiState.value.copy(user = userFirebase)
+                }
+                val questions = runBlocking { trivialPursuitQuestionsRepository.getQuestions() }
+                val currentQuestion = questions[0]
+                val possibleAnswers = createPossibleAnswers(currentQuestion)
 
-    private fun resetGameUiState() {
-        _gameUiState.value = _gameUiState.value.copy(
-            questions = listOf(),
-            currentQuestion = null,
-            possibleAnswers = listOf(),
-            numberOfQuestions = 0,
-            numberOfQuestionsAnswered = 0,
-            userScore = 0,
-            isAnswerCorrect = null,
-            answerSelected = null,
-            timer = 0,
-            multiplier = 1.0
-        )
+                _gameUiState.value = _gameUiState.value.copy(
+                    questions = questions,
+                    currentQuestion = currentQuestion,
+                    possibleAnswers = possibleAnswers,
+                    numberOfQuestions = questions.size,
+                    numberOfQuestionsAnswered = 0,
+                    userScore = 0,
+                    isAnswerCorrect = null,
+                    answerSelected = null,
+                    timer = 10,
+                    multiplier = 1.0,
+                    isStarted = true
+                )
+            }
+        }
     }
 
 
@@ -77,15 +72,15 @@ class GameViewModel @Inject constructor(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }.time
-        _gameUiState.value.isEnded = true
-        val user = UserFirebase("ZaIlsATA9DOrErvjrz5sP8CX6A93", "Romain")
-        userFirebaseRepository.updateScores(user.uid!!, gameUiState.value.userScore)
-        user.uid?.let { userFirebaseRepository.updateLastTimeDailyAnswered(it, today) }
-        resetGameUiState()
+        gameUiState.value.user?.uid?.let {
+            userFirebaseRepository.updateScores(it, gameUiState.value.userScore)
+            userFirebaseRepository.updateLastTimeDailyAnswered(it, today)
+        }
+        _gameUiState.value = _gameUiState.value.copy(isEnded = true)
     }
 
 
-    suspend fun changeToNextQuestion() {
+    private fun changeToNextQuestion() {
         val numberOfQuestionsAnswered = gameUiState.value.numberOfQuestionsAnswered + 1
         if (numberOfQuestionsAnswered == gameUiState.value.numberOfQuestions) {
             handleEndOfGame()

@@ -40,7 +40,10 @@ fun GameScreen(
         timeLeft = gameUiState.timer
     })
 
-    LaunchedEffect(key1 = gameUiState.isEnded, block = {
+    LaunchedEffect(key1 = gameUiState.isStarted, block = {
+        while (!gameUiState.isStarted) {
+            delay(1000)
+        }
         while (!gameUiState.isEnded) {
             if (timeLeft == 0 && gameUiState.answerSelected == null) {
                 delay(1000)
