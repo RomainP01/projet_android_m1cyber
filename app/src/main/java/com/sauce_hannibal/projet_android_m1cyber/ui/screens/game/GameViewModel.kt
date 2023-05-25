@@ -21,9 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository,
+    private val accountRepository: AccountRepository,
     private val userFirebaseRepository: UserFirebaseRepository,
-    private val accountRepository: AccountRepository
+    private val trivialPursuitQuestionsRepository: TrivialPursuitQuestionsRepository,
 ) : ViewModel() {
     private val _gameUiState = MutableStateFlow(GameUiState())
     val gameUiState: StateFlow<GameUiState>
@@ -36,26 +36,31 @@ class GameViewModel @Inject constructor(
             if (user != null) {
                 userFirebaseRepository.getUser(user.uid).collectLatest { userFirebase ->
                     _gameUiState.value = _gameUiState.value.copy(user = userFirebase)
+                    loadQuestions()
+                    _gameUiState.value = _gameUiState.value.copy(isStarted = true)
                 }
-                val questions = runBlocking { trivialPursuitQuestionsRepository.getQuestions() }
-                val currentQuestion = questions[0]
-                val possibleAnswers = createPossibleAnswers(currentQuestion)
-
-                _gameUiState.value = _gameUiState.value.copy(
-                    questions = questions,
-                    currentQuestion = currentQuestion,
-                    possibleAnswers = possibleAnswers,
-                    numberOfQuestions = questions.size,
-                    numberOfQuestionsAnswered = 0,
-                    userScore = 0,
-                    isAnswerCorrect = null,
-                    answerSelected = null,
-                    timer = 10,
-                    multiplier = 1.0,
-                    isStarted = true
-                )
             }
+
         }
+    }
+
+    private suspend fun loadQuestions() {
+        val questions = trivialPursuitQuestionsRepository.getQuestions()
+        val currentQuestion = questions[0]
+        val possibleAnswers = createPossibleAnswers(currentQuestion)
+
+        _gameUiState.value = _gameUiState.value.copy(
+            questions = questions,
+            currentQuestion = currentQuestion,
+            possibleAnswers = possibleAnswers,
+            numberOfQuestions = questions.size,
+            numberOfQuestionsAnswered = 0,
+            userScore = 0,
+            isAnswerCorrect = null,
+            answerSelected = null,
+            timer = 10,
+            multiplier = 1.0,
+        )
     }
 
 
