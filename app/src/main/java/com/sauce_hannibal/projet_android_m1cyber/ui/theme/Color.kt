@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.TileMode
 
 val Purple100 = Color(0xFF6D249B)
 val Pink100 = Color(0xFFB23E63)
-val Green100 = Color(0xFF4CE0AA)
+val Green100 = Color(0xFF2C7A5C)
 val Red100 = Color(0xFFEB1000)
 val Blue100 = Color(0xFF301A6B)
 val BlueDisabled = Color(0xFF191946)
