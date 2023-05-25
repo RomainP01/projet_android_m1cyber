@@ -94,7 +94,7 @@ fun LoginScreen(navController: NavHostController) {
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onPasswordVisibilityChange(!uiState.passwordVisibility) }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.password_eye),
+                                painter = painterResource(id = R.drawable.ic_eye),
                                 contentDescription = null,
                                 tint = if (uiState.passwordVisibility) Color.Black else Color.Gray
                             )

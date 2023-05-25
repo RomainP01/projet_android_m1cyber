@@ -121,7 +121,7 @@ fun RegisterScreen(navController: NavHostController) {
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onPasswordVisibilityChange(!uiState.passwordVisibility) }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.password_eye),
+                                painter = painterResource(id = R.drawable.ic_eye),
                                 contentDescription = null,
                                 tint = if (uiState.passwordVisibility) Color.Black else Color.Gray
                             )
@@ -161,7 +161,7 @@ fun RegisterScreen(navController: NavHostController) {
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onPasswordVisibilityConfirmationChange(!uiState.ConfirmationPasswordVisibility) }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.password_eye),
+                                painter = painterResource(id = R.drawable.ic_eye),
                                 contentDescription = null,
                                 tint = if (uiState.ConfirmationPasswordVisibility) Color.Black else Color.Gray
                             )

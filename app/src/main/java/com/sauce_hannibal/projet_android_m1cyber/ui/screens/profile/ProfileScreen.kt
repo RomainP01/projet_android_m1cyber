@@ -3,6 +3,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -31,8 +32,7 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,14 +47,10 @@ fun ProfileScreen(navController: NavController) {
         }
     val context = LocalContext.current
     val imagePainter = if (uiState.newUri == null) {
-        rememberAsyncImagePainter(
-            remember(uiState.user?.profilePictureUrl) {
-                ImageRequest.Builder(context)
-                    .data(uiState.user?.profilePictureUrl)
-                    .memoryCachePolicy(CachePolicy.DISABLED)
-                    .build()
-            }
-        )
+        rememberAsyncImagePainter(remember(uiState.user?.profilePictureUrl) {
+            ImageRequest.Builder(context).data(uiState.user?.profilePictureUrl)
+                .memoryCachePolicy(CachePolicy.DISABLED).build()
+        })
     } else {
         rememberAsyncImagePainter(model = uiState.newUri)
     }
@@ -66,25 +62,45 @@ fun ProfileScreen(navController: NavController) {
     })
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val circleRadius = 250f
+        val circleRadius = 180f
         val circleSize = with(LocalDensity.current) { circleRadius.toDp() * 2 }
         Row(
             modifier = Modifier
-                .padding(top = 16.dp)
+                .padding(top = 30.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            verticalAlignment = Alignment.CenterVertically,
         ) {
+            Spacer(modifier = Modifier.weight(3f))
+            Text(
+                text = "Profile",
+                color = Color.White,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    shadow = Shadow(
+                        color = Green100, offset = Offset(1f, 1f), blurRadius = 1f
+                    )
+                )
+            )
+            Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = {
                     viewModel.logout()
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Blue100)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = LightBlue100,
+                ),
+                border = BorderStroke(2.dp, Color.Black),
+                modifier = Modifier
+                    .size(100.dp, 30.dp)
+                    .padding(end = 10.dp)
             ) {
-                Text("Logout")
+                Text(
+                    text = "Logout",
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 10.sp
+                )
             }
         }
         Box(
@@ -94,9 +110,7 @@ fun ProfileScreen(navController: NavController) {
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 drawCircle(
-                    color = Color.LightGray,
-                    radius = circleRadius,
-                    center = center
+                    color = Color.LightGray, radius = circleRadius, center = center
                 )
             }
             Image(
@@ -104,14 +118,23 @@ fun ProfileScreen(navController: NavController) {
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(circleSize)
                     .clip(CircleShape)
             )
         }
-        Button(onClick = {
-            getContent.launch("image/*")
-        }) {
-            Text("Change Image")
+        Button(
+            onClick = {
+                getContent.launch("image/*")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Green100,
+            ),
+            border = BorderStroke(2.dp, Color.Black),
+
+            ) {
+            Text(
+                "Change Image", color = Color.White, style = MaterialTheme.typography.bodyMedium
+            )
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -119,13 +142,6 @@ fun ProfileScreen(navController: NavController) {
             text = uiState.user?.pseudo ?: "",
             modifier = Modifier.padding(bottom = 16.dp),
             color = Color.White,
-            style = TextStyle(
-                shadow = Shadow(
-                    color = Green100,
-                    offset = Offset(3f, 3f),
-                    blurRadius = 1f
-                )
-            ),
             fontSize = 35.sp
         )
 
@@ -134,18 +150,29 @@ fun ProfileScreen(navController: NavController) {
             onValueChange = {
                 viewModel.setNewPseudo(it)
             },
-            label = { Text("New pseudo") },
+            label = {
+                Text(
+                    "New pseudo",
+                )
+            },
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            viewModel.saveChanges(uiState.newUri, uiState.newPseudo)
-        }) {
-            Text("Save changes")
+        Button(
+            onClick = {
+                viewModel.saveChanges(uiState.newUri, uiState.newPseudo)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Green100,
+            ),
+            border = BorderStroke(2.dp, Color.Black),
+        ) {
+            Text(
+                "Save changes", color = Color.White, style = MaterialTheme.typography.bodyMedium
+            )
         }
         if (uiState.errorMessage != null) {
             Text(uiState.errorMessage!!)
         }
-
-
     }
 }
