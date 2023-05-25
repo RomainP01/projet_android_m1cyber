@@ -16,6 +16,8 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.Leaderbo
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.login.LoginScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScreen
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.register.RegisterScreen
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 
 @Composable
@@ -23,7 +25,7 @@ fun ComposeApp() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.LOGIN
+        startDestination = Route.HOME
     ) {
         composable(Route.LOGIN) {
             LoginScreen(
@@ -47,7 +49,7 @@ fun ComposeApp() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(PurplePinkBackground)
-            ) {HomeScreen(navController)  }
+            ) { HomeScreen(navController) }
         }
     }
 }

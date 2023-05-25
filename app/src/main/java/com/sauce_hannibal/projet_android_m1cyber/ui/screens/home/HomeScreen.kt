@@ -11,6 +11,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -21,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.game.GameScreen
@@ -48,6 +50,9 @@ fun HomeScreen(navControllerMain: NavController) {
     )
 
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsWithImePadding(),
         bottomBar = {
             if (currentIndex != 4) {
                 NavigationBar(
@@ -123,57 +128,40 @@ fun HomeScreen(navControllerMain: NavController) {
                     )
                 }
             }
-        }
-    ) {
-        NavHost(
-            navController = navController,
-            startDestination = HomeRoute.HOME
-        ) {
-            composable(HomeRoute.HOME) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PurplePinkBackground)
+        },
+        content = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(PurplePinkBackground)
+            ) {
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeRoute.HOME
                 ) {
-                    LaunchGameComponent(navController, homeUiState) {
-                        currentIndex = 4
+                    composable(HomeRoute.HOME) {
+                        LaunchGameComponent(navController, homeUiState) {
+                            currentIndex = 4
+                        }
+                    }
+                    composable(HomeRoute.PROFILE) {
+
+                        ProfileScreen(navControllerMain)
+
+                    }
+                    composable(HomeRoute.LEADERBOARD) {
+                        LeaderboardScreen()
+                    }
+                    composable(HomeRoute.GAME) {
+                        GameScreen(navController) {
+                            currentIndex = 1
+                        }
                     }
                 }
             }
-            composable(HomeRoute.PROFILE) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PurplePinkBackground)
-                ) {
-                    ProfileScreen(navControllerMain)
-                }
-            }
-            composable(HomeRoute.LEADERBOARD) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PurplePinkBackground)
-                ) {
-                    LeaderboardScreen()
-                }
-            }
-            composable(HomeRoute.GAME) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PurplePinkBackground)
-                ) {
-                    GameScreen(navController) {
-                        currentIndex = 1
-                    }
-                }
-                GameScreen(navController) {
-                    currentIndex = 1
-                }
-            }
-        }
-    }
+        },
+
+        )
 }
 
 object HomeRoute {

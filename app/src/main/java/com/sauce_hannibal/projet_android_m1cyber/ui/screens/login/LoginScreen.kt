@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,11 +32,11 @@ fun LoginScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val modifier = Modifier
     val uiState = viewModel.loginUiState.collectAsState().value
-    LaunchedEffect(key1 = uiState, block ={
+    LaunchedEffect(key1 = uiState, block = {
         if (uiState.isConnected) {
             navController.navigate(Route.HOME)
         }
-    } )
+    })
 
     var showErrorDialog by remember { mutableStateOf(false) }
 
@@ -44,7 +45,7 @@ fun LoginScreen(navController: NavHostController) {
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Color.White), contentAlignment = Alignment.TopCenter
+                .background(Purple100), contentAlignment = Alignment.TopCenter
         ) {
             Image(
                 painter = painterResource(id = R.drawable.trivia_crack_logo),
@@ -108,7 +109,7 @@ fun LoginScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
-                    onClick = {viewModel.login(uiState.email, uiState.password)},
+                    onClick = { viewModel.login(uiState.email, uiState.password) },
                     modifier = Modifier
                         .fillMaxWidth(8.8f)
                         .height(50.dp)
@@ -116,7 +117,7 @@ fun LoginScreen(navController: NavHostController) {
                     Text(
                         text = "Sign In",
                         fontSize = 20.sp,
-                        )
+                    )
                 }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Text(text = "Create an account",
@@ -148,8 +149,6 @@ fun LoginScreen(navController: NavHostController) {
                     showErrorDialog = true
                 }
             }
-
-
 
 
         }

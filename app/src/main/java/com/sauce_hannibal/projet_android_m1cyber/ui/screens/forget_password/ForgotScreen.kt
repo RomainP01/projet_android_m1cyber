@@ -34,8 +34,6 @@ fun ForgotScreen(navController: NavHostController) {
     }
 
 
-
-
     var emailValue by remember {
         mutableStateOf("")
     }
@@ -47,7 +45,8 @@ fun ForgotScreen(navController: NavHostController) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
             modifier = modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
 
         ) {
             Image(
@@ -118,7 +117,7 @@ fun ForgotScreen(navController: NavHostController) {
                 if (showDialog) {
                     AlertDialog(
                         onDismissRequest = {
-                            showDialog = false // Fermer la boîte de dialogue lorsque l'utilisateur la ferme
+                            showDialog = false
                         },
                         title = {
                             Text(text = "Mail envoyé")
@@ -129,7 +128,7 @@ fun ForgotScreen(navController: NavHostController) {
                         confirmButton = {
                             Button(
                                 onClick = {
-                                    showDialog = false // Fermer la boîte de dialogue lorsque l'utilisateur clique sur le bouton OK
+                                    showDialog = false
                                 }
                             ) {
                                 Text(text = "OK")
@@ -141,12 +140,11 @@ fun ForgotScreen(navController: NavHostController) {
             }
 
 
-
-            }
-
         }
 
     }
+
+}
 
 
 
