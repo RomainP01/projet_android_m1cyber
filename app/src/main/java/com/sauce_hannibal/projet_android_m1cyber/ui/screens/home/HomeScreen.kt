@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,7 +34,7 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.theme.PurplePinkBackground
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navControllerMain:NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val homeUiState = viewModel.homeUiState.collectAsState().value
     val navController = rememberNavController()
@@ -136,7 +137,7 @@ fun HomeScreen() {
                         .fillMaxSize()
                         .background(PurplePinkBackground)
                 ) {
-                    ProfileScreen()
+                    ProfileScreen(navControllerMain)
                 }
             }
             composable(HomeRoute.LEADERBOARD) {

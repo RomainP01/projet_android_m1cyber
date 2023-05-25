@@ -47,7 +47,7 @@ fun ComposeApp() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(PurplePinkBackground)
-            ) { HomeScreen() }
+            ) {HomeScreen(navController)  }
         }
     }
 }
