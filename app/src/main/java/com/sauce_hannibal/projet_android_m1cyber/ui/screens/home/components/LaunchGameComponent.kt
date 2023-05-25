@@ -2,7 +2,6 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -12,25 +11,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
-import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeViewModel
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Red100
 
 @Composable
 fun LaunchGameComponent(
@@ -96,11 +90,13 @@ fun LaunchGameComponent(
                     Icon(
                         modifier = Modifier
                             .size(40.dp),
-                        painter = painterResource(id = R.drawable.baseline_play_arrow_24),
+                        painter = if (!homeUiState.isDailyChallengeDone) painterResource(id = R.drawable.ic_arrow_play) else painterResource(
+                            id = R.drawable.ic_stop
+                        ),
                         contentDescription = "launch icon",
-                        tint = Green100,
+                        tint = if (!homeUiState.isDailyChallengeDone) Green100 else Red100,
 
-                    )
+                        )
                     Text(
                         text = "DAILY RANKED \n 10 QUESTIONS",
                         modifier = Modifier.weight(1f),
