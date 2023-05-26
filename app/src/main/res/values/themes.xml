@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.JetpackComposeBoilerplate" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@android:color/holo_green_dark</item>
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
 </resources>

@@ -59,10 +59,17 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun setIsSaved(isSaved: Boolean) {
+        _profileUiState.value = _profileUiState.value.copy(isSaved = isSaved)
+    }
+
     fun saveChanges(uri: Uri?, pseudo: String?) {
         viewModelScope.launch(Dispatchers.IO) {
+            var messageShowed = false;
             if (uri != null) {
                 updateProfilePicture(uri)
+                setIsSaved(true)
+                messageShowed = true
             }
             if (pseudo != null) {
 
@@ -76,6 +83,7 @@ class ProfileViewModel @Inject constructor(
                     )
                     _profileUiState.value =
                         _profileUiState.value.copy(user = _profileUiState.value.user?.copy(pseudo = pseudo))
+                    if (!messageShowed) setIsSaved(true)
                 } else {
                     _profileUiState.value =
                         _profileUiState.value.copy(errorMessage = "Pseudo already taken")

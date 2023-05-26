@@ -2,6 +2,7 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile
 
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -33,7 +34,6 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.google.accompanist.insets.LocalWindowInsets
 import com.sauce_hannibal.projet_android_m1cyber.ui.Route
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.*
 
@@ -177,6 +177,14 @@ fun ProfileScreen(navController: NavController) {
         }
         if (uiState.errorMessage != null) {
             Text(uiState.errorMessage!!, color = Color.White)
+        }
+        if(uiState.isSaved){
+            Toast.makeText(context,
+                "Your profile has been updated",
+                Toast.LENGTH_SHORT,
+                )
+                .show()
+            viewModel.setIsSaved(false)
         }
     }
 }

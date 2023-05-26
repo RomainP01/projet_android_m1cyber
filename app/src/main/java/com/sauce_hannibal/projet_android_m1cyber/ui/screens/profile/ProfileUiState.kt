@@ -8,5 +8,6 @@ data class ProfileUiState(
     var newUri: Uri? = null,
     var newPseudo: String? = null,
     var errorMessage: String? = null,
-    var isConnected: Boolean = true
+    var isConnected: Boolean = true,
+    var isSaved: Boolean = false
 )
