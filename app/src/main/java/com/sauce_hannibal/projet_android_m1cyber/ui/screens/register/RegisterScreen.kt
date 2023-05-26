@@ -46,6 +46,13 @@ fun RegisterScreen(navController: NavHostController) {
         }
     }
 
+    fun validateConfirmationPassword(confirmationPassword: String) {
+        errorMessage.value = when {
+            uiState.password != confirmationPassword -> "The password and the confirmation password must be the same."
+            else -> ""
+        }
+    }
+
     LaunchedEffect(key1 = uiState, block = {
         if (uiState.isAccountCreated) {
             navController.navigate(Route.LOGIN)
@@ -157,9 +164,16 @@ fun RegisterScreen(navController: NavHostController) {
 
                 OutlinedTextField(
                     value = uiState.confirmationPassword,
-                    onValueChange = { viewModel.onConfirmationPasswordChange(it) },
+                    onValueChange = {
+                        viewModel.onConfirmationPasswordChange(it)
+                        validateConfirmationPassword(it)
+                    },
                     trailingIcon = {
-                        IconButton(onClick = { viewModel.onPasswordVisibilityConfirmationChange(!uiState.ConfirmationPasswordVisibility) }) {
+                        IconButton(onClick = {
+                            viewModel.onPasswordVisibilityConfirmationChange(
+                                !uiState.ConfirmationPasswordVisibility
+                            )
+                        }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_eye),
                                 contentDescription = null,
@@ -170,7 +184,8 @@ fun RegisterScreen(navController: NavHostController) {
                     label = { Text(text = "Confirm Password") },
                     placeholder = { Text(text = "Confirm Password") },
                     singleLine = true,
-                    visualTransformation = if (uiState.ConfirmationPasswordVisibility) VisualTransformation.None
+                    visualTransformation =
+                    if (uiState.ConfirmationPasswordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(8.8f),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),

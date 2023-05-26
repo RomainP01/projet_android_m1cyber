@@ -69,35 +69,38 @@ class RegisterViewModel @Inject constructor(
 
     fun register() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (userFirebaseRepository.isPseudoAvailable(pseudo)) {
-                val uid = accountRepository.signUp(email, password)?.uid
-                if (uid != null) {
-                    val defaultProfilePictures = arrayOf(
-                        "default_profile_picture", "default_profile_picture2"
-                    )
-                    val randomIndex = (defaultProfilePictures.indices).random()
-                    val resourceName = defaultProfilePictures[randomIndex]
-                    val defaultProfilePictureUri = Uri.parse(
-                        "android.resource://com.sauce_hannibal.projet_android_m1cyber/drawable/$resourceName"
-                    )
-                    firebaseStorageRepository.uploadImage(defaultProfilePictureUri,
-                        uid,
-                        successCallback = { downloadUrl ->
-                            val user = UserFirebase(
-                                uid = uid, pseudo = pseudo, profilePictureUrl = downloadUrl
-                            )
-                            userFirebaseRepository.insertUser(uid, user)
-                        },
-                        errorCallback = { exception ->
-                            throw exception
-                        })
-                    _registerUiState.value = _registerUiState.value.copy(isAccountCreated = true)
+            if (password == confirmationPassword) {
+                if (userFirebaseRepository.isPseudoAvailable(pseudo)) {
+                    val uid = accountRepository.signUp(email, password)?.uid
+                    if (uid != null) {
+                        val defaultProfilePictures = arrayOf(
+                            "default_profile_picture", "default_profile_picture2"
+                        )
+                        val randomIndex = (defaultProfilePictures.indices).random()
+                        val resourceName = defaultProfilePictures[randomIndex]
+                        val defaultProfilePictureUri = Uri.parse(
+                            "android.resource://com.sauce_hannibal.projet_android_m1cyber/drawable/$resourceName"
+                        )
+                        firebaseStorageRepository.uploadImage(defaultProfilePictureUri,
+                            uid,
+                            successCallback = { downloadUrl ->
+                                val user = UserFirebase(
+                                    uid = uid, pseudo = pseudo, profilePictureUrl = downloadUrl
+                                )
+                                userFirebaseRepository.insertUser(uid, user)
+                            },
+                            errorCallback = { exception ->
+                                throw exception
+                            })
+                        _registerUiState.value =
+                            _registerUiState.value.copy(isAccountCreated = true)
 
+                    }
+                } else {
+                    _registerUiState.value = _registerUiState.value.copy(
+                        pseudoErrorMessage = "Pseudo already taken"
+                    )
                 }
-            } else {
-                _registerUiState.value = _registerUiState.value.copy(
-                    pseudoErrorMessage = "Pseudo already taken"
-                )
             }
         }
     }
