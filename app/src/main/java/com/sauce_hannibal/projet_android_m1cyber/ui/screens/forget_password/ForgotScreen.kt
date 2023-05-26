@@ -120,10 +120,10 @@ fun ForgotScreen(navController: NavHostController) {
                             showDialog = false
                         },
                         title = {
-                            Text(text = "Mail envoyé")
+                            Text(text = "Email sent")
                         },
                         text = {
-                            Text(text = "Le mail a été envoyé avec succès.")
+                            Text(text = "The mail was sent successfully")
                         },
                         confirmButton = {
                             Button(
