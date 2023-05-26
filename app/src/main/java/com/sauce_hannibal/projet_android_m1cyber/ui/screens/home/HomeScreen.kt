@@ -63,24 +63,7 @@ fun HomeScreen(navControllerMain: NavController) {
                                 bottomEnd = 0.dp
                             )
                         ),
-                    ) {
-                    NavigationBarItem(
-                        selected = currentIndex == 0,
-                        onClick = {
-                            currentIndex = 0
-                            navController.navigate(HomeRoute.PROFILE)
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_account),
-                                contentDescription = "home icon",
-                            )
-                        },
-                        colors = navColors,
-                        label = {
-                            Text(text = "Profile", color = Color.White)
-                        }
-                    )
+                ) {
                     NavigationBarItem(
                         selected = currentIndex == 1,
                         onClick = {
@@ -115,6 +98,25 @@ fun HomeScreen(navControllerMain: NavController) {
                             Text(text = "Leaderboard", color = Color.White)
                         },
                     )
+                    NavigationBarItem(
+                        selected = currentIndex == 0,
+                        onClick = {
+                            currentIndex = 0
+                            navController.navigate(HomeRoute.PROFILE)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_account),
+                                contentDescription = "home icon",
+                            )
+                        },
+                        colors = navColors,
+                        label = {
+                            Text(text = "Profile", color = Color.White)
+                        }
+                    )
+
+
                 }
             }
         },
@@ -135,6 +137,17 @@ fun HomeScreen(navControllerMain: NavController) {
                         }
                     }
                 }
+                composable(HomeRoute.GAME) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(PurplePinkBackground)
+                    ) {
+                        GameScreen(navController) {
+                            currentIndex = 1
+                        }
+                    }
+                }
                 composable(HomeRoute.PROFILE) {
                     Box(
                         modifier = Modifier
@@ -151,17 +164,6 @@ fun HomeScreen(navControllerMain: NavController) {
                             .background(LightPurpleDeepPurpleBackground)
                     ) {
                         LeaderboardScreen()
-                    }
-                }
-                composable(HomeRoute.GAME) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(PurplePinkBackground)
-                    ) {
-                        GameScreen(navController) {
-                            currentIndex = 1
-                        }
                     }
                 }
             }
