@@ -13,14 +13,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Blue100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueBorderUserList
@@ -28,10 +32,11 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.theme.WhiteBackgroundUserLis
 
 @Composable
 fun LeaderboardUsersListItemComponent(
-    currentUser : UserFirebase,
-    index : Int,
-    isAllTimeScore : Boolean
+    currentUser: UserFirebase,
+    index: Int,
+    isAllTimeScore: Boolean
 ) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,8 +51,13 @@ fun LeaderboardUsersListItemComponent(
             modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),
             color = Color.White,
         )
-        if (currentUser?.profilePictureUrl != null) {
-            val imagePainter = rememberAsyncImagePainter(model = currentUser?.profilePictureUrl)
+        if (currentUser.profilePictureUrl != null) {
+            val imagePainter =
+                rememberAsyncImagePainter(remember(currentUser.profilePictureUrl) {
+                    ImageRequest.Builder(context)
+                        .data(currentUser.profilePictureUrl)
+                        .memoryCachePolicy(CachePolicy.DISABLED).build()
+                })
             Image(
                 painter = imagePainter,
                 contentDescription = null,
@@ -67,7 +77,7 @@ fun LeaderboardUsersListItemComponent(
 
         Text(
             text = currentUser.pseudo ?: "",
-            modifier = Modifier.padding(start = 15.dp) ,
+            modifier = Modifier.padding(start = 15.dp),
             color = Color.White
         )
         Text(

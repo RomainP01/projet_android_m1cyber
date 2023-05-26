@@ -1,51 +1,46 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.leaderboard.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.BlueBorderUserList
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Bronze
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Gold
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Silver
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.TacoCrispy
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.WhiteBackground
-import com.sauce_hannibal.projet_android_m1cyber.ui.theme.WhiteBackgroundUserList
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.*
 
 @Composable
 fun PodiumComponent(
-    filteredUsers :  List<UserFirebase>,
-    isAllTimeScore : Boolean
+    filteredUsers: List<UserFirebase>,
+    isAllTimeScore: Boolean
 ) {
+    val context = LocalContext.current
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         if (filteredUsers.getOrNull(1)?.profilePictureUrl.toString() != null) {
-            val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(1)?.profilePictureUrl.toString())
+            val imagePainter =
+                rememberAsyncImagePainter(remember(filteredUsers.getOrNull(1)?.profilePictureUrl.toString()) {
+                    ImageRequest.Builder(context)
+                        .data(filteredUsers.getOrNull(1)?.profilePictureUrl.toString())
+                        .memoryCachePolicy(CachePolicy.DISABLED).build()
+                })
             Image(
                 painter = imagePainter,
                 contentDescription = null,
@@ -109,7 +104,12 @@ fun PodiumComponent(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         if (filteredUsers.getOrNull(0)?.profilePictureUrl.toString() != null) {
-            val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(0)?.profilePictureUrl.toString())
+            val imagePainter =
+                rememberAsyncImagePainter(remember(filteredUsers.getOrNull(0)?.profilePictureUrl.toString()) {
+                    ImageRequest.Builder(context)
+                        .data(filteredUsers.getOrNull(0)?.profilePictureUrl.toString())
+                        .memoryCachePolicy(CachePolicy.DISABLED).build()
+                })
             Image(
                 painter = imagePainter,
                 contentDescription = null,
@@ -170,7 +170,12 @@ fun PodiumComponent(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         if (filteredUsers.getOrNull(2)?.profilePictureUrl.toString() != null) {
-            val imagePainter = rememberAsyncImagePainter(model = filteredUsers.getOrNull(2)?.profilePictureUrl.toString())
+            val imagePainter =
+                rememberAsyncImagePainter(remember(filteredUsers.getOrNull(2)?.profilePictureUrl.toString()) {
+                    ImageRequest.Builder(context)
+                        .data(filteredUsers.getOrNull(2)?.profilePictureUrl.toString())
+                        .memoryCachePolicy(CachePolicy.DISABLED).build()
+                })
             Image(
                 painter = imagePainter,
                 contentDescription = null,

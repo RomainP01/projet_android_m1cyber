@@ -1,18 +1,23 @@
 package com.sauce_hannibal.projet_android_m1cyber.ui.screens.home
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -26,8 +31,11 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.profile.ProfileScree
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.*
 
 
+@RequiresApi(Build.VERSION_CODES.R)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun HomeScreen(navControllerMain: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -121,7 +129,6 @@ fun HomeScreen(navControllerMain: NavController) {
             }
         },
         content = {
-
             NavHost(
                 navController = navController,
                 startDestination = HomeRoute.HOME
@@ -168,8 +175,7 @@ fun HomeScreen(navControllerMain: NavController) {
                 }
             }
         },
-
-        )
+    )
 }
 
 object HomeRoute {
