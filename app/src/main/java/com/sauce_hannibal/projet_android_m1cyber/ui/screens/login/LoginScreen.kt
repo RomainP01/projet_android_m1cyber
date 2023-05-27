@@ -86,7 +86,10 @@ fun LoginScreen(navController: NavHostController) {
                     label = { Text(text = "Email Address") },
                     placeholder = { Text(text = "Email Address", color = Color.Black) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth(8.8f)
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
+                    )
                 )
                 OutlinedTextField(
                     value = uiState.password,
@@ -105,7 +108,11 @@ fun LoginScreen(navController: NavHostController) {
                     singleLine = true,
                     visualTransformation = if (uiState.passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(8.8f)
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
+                    )
+
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(

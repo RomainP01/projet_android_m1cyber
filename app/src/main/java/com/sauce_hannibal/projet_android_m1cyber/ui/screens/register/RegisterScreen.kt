@@ -107,6 +107,9 @@ fun RegisterScreen(navController: NavHostController) {
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(8.8f),
                     isError = uiState.pseudoErrorMessage != "",
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
+                    )
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
@@ -115,7 +118,10 @@ fun RegisterScreen(navController: NavHostController) {
                     label = { Text(text = "Email Address") },
                     placeholder = { Text(text = "Email Address", color = Color.Black) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth(8.8f)
+                    modifier = Modifier.fillMaxWidth(8.8f),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
+                    )
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
 
@@ -142,6 +148,7 @@ fun RegisterScreen(navController: NavHostController) {
                     modifier = Modifier.fillMaxWidth(8.8f),
                     isError = errorMessage.value.isNotEmpty(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
                         focusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
                         unfocusedBorderColor = if (errorMessage.value.isNotEmpty()) Color.Red else Color.Gray,
                     ),
@@ -193,6 +200,9 @@ fun RegisterScreen(navController: NavHostController) {
                         onDone = {
 
                         }
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
                     )
                 )
 
