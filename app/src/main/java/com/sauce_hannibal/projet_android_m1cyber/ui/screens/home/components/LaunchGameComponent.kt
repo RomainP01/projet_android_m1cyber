@@ -23,8 +23,12 @@ import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeRoute
 import com.sauce_hannibal.projet_android_m1cyber.ui.screens.home.HomeUiState
 import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Green100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.GreyDisabled
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Pink100
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Purple200
 import com.sauce_hannibal.projet_android_m1cyber.ui.theme.Red100
+import com.sauce_hannibal.projet_android_m1cyber.ui.theme.WhiteBackgroundUserList
 
 @Composable
 fun LaunchGameComponent(
@@ -69,13 +73,13 @@ fun LaunchGameComponent(
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
+                    containerColor = if (!homeUiState.isDailyChallengeDone) Color.White else Purple200
                 ),
                 modifier = Modifier
                     .width(250.dp)
                     .border(
                         width = 2.5.dp,
-                        color = Purple100,
+                        color = if(!homeUiState.isDailyChallengeDone) Pink100 else GreyDisabled,
                         shape = RoundedCornerShape(50.dp)
                     ),
                 onClick = {
@@ -94,7 +98,7 @@ fun LaunchGameComponent(
                             id = R.drawable.ic_stop
                         ),
                         contentDescription = "launch icon",
-                        tint = if (!homeUiState.isDailyChallengeDone) Green100 else Red100,
+                        tint = if (!homeUiState.isDailyChallengeDone) Green100 else GreyDisabled,
 
                         )
                     Text(
@@ -102,7 +106,7 @@ fun LaunchGameComponent(
                         modifier = Modifier.weight(1f),
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
-                        color = Purple100
+                        color = if (!homeUiState.isDailyChallengeDone) Purple100 else GreyDisabled
                     )
                 }
 

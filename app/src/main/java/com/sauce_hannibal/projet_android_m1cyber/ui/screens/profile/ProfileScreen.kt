@@ -144,16 +144,22 @@ fun ProfileScreen(navController: NavController) {
 
         Text(
             text = uiState.user?.pseudo ?: "",
-            modifier = Modifier.padding(bottom = 16.dp),
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(vertical = 5.dp, horizontal = 20.dp),
             color = Color.White,
-            fontSize = 35.sp
+            fontSize = 30.sp,
         )
 
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
             value = uiState.newPseudo ?: "",
             onValueChange = {
                 viewModel.setNewPseudo(it)
             },
+            maxLines = 1,
             label = {
                 Text(
                     "New pseudo",
