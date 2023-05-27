@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -20,8 +21,11 @@ class TrivialPursuitQuestionsRepository @Inject constructor(
             set(Calendar.SECOND, 0)
         }.time
 
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val todayDoc = dateFormat.format(today)
+
         val questionsCollection = firestore.collection(_collection)
-            .document(today.toString())
+            .document(todayDoc)
             .collection("questions")
 
         questions.forEach { question ->
@@ -39,8 +43,11 @@ class TrivialPursuitQuestionsRepository @Inject constructor(
             set(Calendar.SECOND, 0)
         }.time
 
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val todayDoc = dateFormat.format(today)
+
         val questionsCollection = firestore.collection(_collection)
-            .document(today.toString())
+            .document(todayDoc)
             .collection("questions")
 
         val querySnapshot = questionsCollection.get().await()
