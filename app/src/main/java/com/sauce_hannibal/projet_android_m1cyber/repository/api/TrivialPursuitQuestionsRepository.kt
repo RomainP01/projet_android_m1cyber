@@ -4,12 +4,9 @@ package com.sauce_hannibal.projet_android_m1cyber.repository.api
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sauce_hannibal.projet_android_m1cyber.domain.TrivialPursuitQuestion
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 class TrivialPursuitQuestionsRepository @Inject constructor(
     private val trivialPursuitQuestionsApi: TrivialPursuitQuestionsApi,

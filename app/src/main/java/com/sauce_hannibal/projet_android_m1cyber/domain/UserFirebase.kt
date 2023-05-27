@@ -1,6 +1,6 @@
 package com.sauce_hannibal.projet_android_m1cyber.domain
 
-import java.util.Date
+import java.util.*
 
 data class UserFirebase(
     val uid: String? = null,

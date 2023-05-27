@@ -164,7 +164,8 @@ fun GameScreen(
                 gameUiState.currentQuestion?.let {
                     Text(
                         text = it.question,
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp),
+                        color = Color.Black,
                     )
                 }
                 LinearProgressIndicator(

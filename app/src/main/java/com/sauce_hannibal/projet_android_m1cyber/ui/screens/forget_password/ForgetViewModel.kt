@@ -2,8 +2,6 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.forget_password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.account.FirebaseAccountRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

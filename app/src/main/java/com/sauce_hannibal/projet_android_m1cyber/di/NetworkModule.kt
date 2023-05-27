@@ -2,9 +2,6 @@ package com.sauce_hannibal.projet_android_m1cyber.di
 
 import com.sauce_hannibal.projet_android_m1cyber.BuildConfig
 import com.sauce_hannibal.projet_android_m1cyber.network.TrivialPursuitQuestionsApi
-import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
-import com.sauce_hannibal.projet_android_m1cyber.repository.account.FirebaseAccountRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

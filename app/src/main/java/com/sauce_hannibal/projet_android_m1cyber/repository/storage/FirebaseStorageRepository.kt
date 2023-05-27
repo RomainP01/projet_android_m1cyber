@@ -1,8 +1,6 @@
 package com.sauce_hannibal.projet_android_m1cyber.repository.storage
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 

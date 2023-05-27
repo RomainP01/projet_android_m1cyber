@@ -103,7 +103,7 @@ fun RegisterScreen(navController: NavHostController) {
                         viewModel.setPseudoErrorMessage("")
                     },
                     label = { Text(text = "Pseudo") },
-                    placeholder = { Text(text = "Pseudo") },
+                    placeholder = { Text(text = "Pseudo", color = Color.Black) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(8.8f),
                     isError = uiState.pseudoErrorMessage != "",
@@ -113,7 +113,7 @@ fun RegisterScreen(navController: NavHostController) {
                     value = uiState.email,
                     onValueChange = { viewModel.onEmailChange(it) },
                     label = { Text(text = "Email Address") },
-                    placeholder = { Text(text = "Email Address") },
+                    placeholder = { Text(text = "Email Address", color = Color.Black) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(8.8f)
                 )
@@ -135,7 +135,7 @@ fun RegisterScreen(navController: NavHostController) {
                         }
                     },
                     label = { Text(text = "Password") },
-                    placeholder = { Text(text = "Password") },
+                    placeholder = { Text(text = "Password", color = Color.Black) },
                     singleLine = true,
                     visualTransformation = if (uiState.passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
@@ -182,7 +182,7 @@ fun RegisterScreen(navController: NavHostController) {
                         }
                     },
                     label = { Text(text = "Confirm Password") },
-                    placeholder = { Text(text = "Confirm Password") },
+                    placeholder = { Text(text = "Confirm Password", color = Color.Black) },
                     singleLine = true,
                     visualTransformation =
                     if (uiState.ConfirmationPasswordVisibility) VisualTransformation.None

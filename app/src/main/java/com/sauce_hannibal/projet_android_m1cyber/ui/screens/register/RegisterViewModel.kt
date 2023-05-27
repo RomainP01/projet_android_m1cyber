@@ -3,7 +3,6 @@ package com.sauce_hannibal.projet_android_m1cyber.ui.screens.register
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sauce_hannibal.projet_android_m1cyber.R
 import com.sauce_hannibal.projet_android_m1cyber.domain.UserFirebase
 import com.sauce_hannibal.projet_android_m1cyber.repository.account.AccountRepository
 import com.sauce_hannibal.projet_android_m1cyber.repository.firestore.UserFirebaseRepository

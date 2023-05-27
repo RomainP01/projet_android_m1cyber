@@ -84,7 +84,7 @@ fun LoginScreen(navController: NavHostController) {
                     value = uiState.email,
                     onValueChange = { viewModel.onEmailChange(it) },
                     label = { Text(text = "Email Address") },
-                    placeholder = { Text(text = "Email Address") },
+                    placeholder = { Text(text = "Email Address", color = Color.Black) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(8.8f)
                 )
@@ -101,7 +101,7 @@ fun LoginScreen(navController: NavHostController) {
                         }
                     },
                     label = { Text(text = "Password") },
-                    placeholder = { Text(text = "Password") },
+                    placeholder = { Text(text = "Password", color = Color.Black) },
                     singleLine = true,
                     visualTransformation = if (uiState.passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
