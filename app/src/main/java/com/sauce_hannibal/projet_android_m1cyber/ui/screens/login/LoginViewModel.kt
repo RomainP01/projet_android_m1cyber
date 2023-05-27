@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
 
     fun login(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = accountRepository.login(email, password)
+            val result = accountRepository.login(email.trim(), password)
             if (result) {
                 _loginUiState.value = _loginUiState.value.copy(isConnected = true)
             } else {

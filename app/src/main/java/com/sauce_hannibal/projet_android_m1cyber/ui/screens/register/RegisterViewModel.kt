@@ -71,7 +71,7 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             if (password == confirmationPassword) {
                 if (userFirebaseRepository.isPseudoAvailable(pseudo)) {
-                    val uid = accountRepository.signUp(email, password)?.uid
+                    val uid = accountRepository.signUp(email.trim(), password)?.uid
                     if (uid != null) {
                         val defaultProfilePictures = arrayOf(
                             "default_profile_picture", "default_profile_picture2"

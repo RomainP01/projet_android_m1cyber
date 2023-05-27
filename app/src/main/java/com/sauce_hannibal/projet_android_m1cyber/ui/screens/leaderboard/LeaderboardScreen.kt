@@ -126,10 +126,6 @@ fun LeaderboardScreen() {
                 items(filteredUsers.size - 3) { index ->
                     val currentUser = filteredUsers[index + 3]
                     LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
-                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
-                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
-                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
-                    LeaderboardUsersListItemComponent(currentUser = currentUser, index = index, isAllTimeScore = isAllTimeScore)
                 }
             }
 
